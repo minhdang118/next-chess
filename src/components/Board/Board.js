@@ -1,5 +1,6 @@
-import "../styles/Board.css";
-import { getTileClassName } from "../utils/helper";
+import "../../styles/Board.css";
+import { getTileClassName } from "../../utils/helper";
+import Pieces from "../Pieces/Pieces";
 import FileInd from "./FileInd";
 import RankInd from "./RankInd";
 
@@ -9,13 +10,17 @@ const Board = () => {
     return (
         <div className="board">
             <RankInd ranks={ranks}/>
+
             <div className="tiles">
                 {ranks.map((rank, i) =>
                     files.map((file, j) => 
-                        <div className={getTileClassName(i, j)} key={file + "-" + rank}></div>
+                        <div className={getTileClassName(9 - i, j)} key={file + "-" + rank}></div>
                     )
                 )}
             </div>
+
+            <Pieces/>
+
             <FileInd files={files}/>
         </div>
     );

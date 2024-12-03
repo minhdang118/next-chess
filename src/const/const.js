@@ -1,0 +1,13 @@
+export const FEN_to_str = new Map();
+FEN_to_str.set("K", "wk");
+FEN_to_str.set("Q", "wq");
+FEN_to_str.set("B", "wb");
+FEN_to_str.set("N", "wn");
+FEN_to_str.set("R", "wr");
+FEN_to_str.set("P", "wp");
+FEN_to_str.set("k", "bk");
+FEN_to_str.set("q", "bq");
+FEN_to_str.set("b", "bb");
+FEN_to_str.set("n", "bn");
+FEN_to_str.set("r", "br");
+FEN_to_str.set("p", "bp");

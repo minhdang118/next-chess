@@ -1,5 +1,5 @@
-import "../styles/FileInd.css";
-import { getFileChar } from "../utils/helper";
+import "../../styles/FileInd.css";
+import { getFileChar } from "../../utils/helper";
 
 const FileInd = ({files}) => {
     return (
