@@ -1,17 +1,33 @@
 import "../../styles/Pieces.css";
 import Piece from "./Piece";
-import { translate_FEN_row_arr } from "../../utils/helper";
+import { getPositionFromFen } from "../../utils/helper";
+import { useState } from "react";
 
 const Pieces = () => {
-    const starting_FEN = "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2";
-    const FEN_split = starting_FEN.split(' ');
-    const FEN_rows = FEN_split[0].split('/');
+    const starting_fen = "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2";
+    // const position = getPositionFromFen(starting_fen);
+    const [position, setPosition] = useState(getPositionFromFen(starting_fen));
+    // console.log(position);
+    const [isInMove, setIsInMove] = useState(false);
 
-    const FEN_arrs = FEN_rows.map((row_str) => row_str.split(''));
-
-    const position = FEN_arrs.reverse().map((row_arr) => translate_FEN_row_arr(row_arr));
-
-    console.log(position);
+    const handlePieceClick = (e) => {
+        // // pick piece
+        // if (!isInMove) {
+        //     const classNameSplit = e.target.className.split(' ');
+        //     const pickedPiece = classNameSplit[1];
+        //     const posSplit = classNameSplit[2].split('');
+        //     const pickedRank = posSplit[2];
+        //     const pickedFile = posSplit[3];
+        //     console.log("pick", pickedPiece, pickedRank, pickedFile);
+            
+        //     setIsInMove(true);
+        // } 
+        // // move piece
+        // else {
+        //     console.log("move", e.target.className);
+        //     setIsInMove(false);
+        // }
+    }
 
     return (
         <div className="pieces">
@@ -23,6 +39,7 @@ const Pieces = () => {
                             rank={rank}
                             file={file}
                             piece={position[rank][file]}
+                            handlePieceClick={handlePieceClick}
                         />
                     :   null
                 )

@@ -1,8 +1,9 @@
-const Piece = ({key, rank, file, piece}) => {
+const Piece = ({key, rank, file, piece, handlePieceClick}) => {
+
     return (
         <div 
-        className={`piece ${piece} p-${file}${rank}`} 
-        draggable={true}
+        className={`piece ${piece} p-${rank}${file}`} 
+        onClick={handlePieceClick}
         key={key}
         >
         </div>

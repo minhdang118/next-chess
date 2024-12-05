@@ -5,16 +5,16 @@ import FileInd from "./FileInd";
 import RankInd from "./RankInd";
 
 const Board = () => {
-    const ranks = Array(8).fill().map((x, i) => 8 - i);
+    const ranks = Array(8).fill().map((x, i) => i + 1);
     const files = Array(8).fill().map((x, i) => i + 1);
     return (
         <div className="board">
-            <RankInd ranks={ranks}/>
+            <RankInd ranks={ranks.reverse()}/>
 
             <div className="tiles">
                 {ranks.map((rank, i) =>
                     files.map((file, j) => 
-                        <div className={getTileClassName(9 - i, j)} key={file + "-" + rank}></div>
+                        <div className={getTileClassName(9 - i, j)} key={rank + "-" + file}></div>
                     )
                 )}
             </div>

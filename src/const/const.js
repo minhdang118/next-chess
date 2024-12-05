@@ -1,4 +1,4 @@
-export const FEN_to_str = new Map([
+export const fen_to_str = new Map([
     ["K", "wk"],
     ["Q", "wq"],
     ["B", "wb"],
