@@ -1,18 +1,17 @@
 import "../../styles/Pieces.css";
 import Piece from "./Piece";
-import { FEN_to_str } from "../../const/const";
+import { translate_FEN_row_arr } from "../../utils/helper";
 
 const Pieces = () => {
-    const position = new Array(8).fill("").map((x) => new Array(8).fill(""));
-    const startingFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-    const FENarray = startingFEN.split(' ');
-    const FENrows = FENarray[0].split('/');
+    const starting_FEN = "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2";
+    const FEN_split = starting_FEN.split(' ');
+    const FEN_rows = FEN_split[0].split('/');
 
-    FENrows.map((row, i) => 
-        row.split('').map((piece, j) => 
-            position[7-i][j] = FEN_to_str.get(piece)
-        ));
-    // console.log(position);
+    const FEN_arrs = FEN_rows.map((row_str) => row_str.split(''));
+
+    const position = FEN_arrs.reverse().map((row_arr) => translate_FEN_row_arr(row_arr));
+
+    console.log(position);
 
     return (
         <div className="pieces">

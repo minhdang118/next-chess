@@ -1,13 +1,22 @@
-export const FEN_to_str = new Map();
-FEN_to_str.set("K", "wk");
-FEN_to_str.set("Q", "wq");
-FEN_to_str.set("B", "wb");
-FEN_to_str.set("N", "wn");
-FEN_to_str.set("R", "wr");
-FEN_to_str.set("P", "wp");
-FEN_to_str.set("k", "bk");
-FEN_to_str.set("q", "bq");
-FEN_to_str.set("b", "bb");
-FEN_to_str.set("n", "bn");
-FEN_to_str.set("r", "br");
-FEN_to_str.set("p", "bp");
+export const FEN_to_str = new Map([
+    ["K", "wk"],
+    ["Q", "wq"],
+    ["B", "wb"],
+    ["N", "wn"],
+    ["R", "wr"],
+    ["P", "wp"],
+    ["k", "bk"],
+    ["q", "bq"],
+    ["b", "bb"],
+    ["n", "bn"],
+    ["r", "br"],
+    ["p", "bp"],
+    ["1", "-"],
+    ["2", "--".split('')],
+    ["3", "---".split('')],
+    ["4", "----".split('')],
+    ["5", "-----".split('')],
+    ["6", "------".split('')],
+    ["7", "-------".split('')],
+    ["8", "--------".split('')],
+]);
