@@ -1,32 +1,43 @@
 import "../../styles/Pieces.css";
 import Piece from "./Piece";
-import { getPositionFromFen } from "../../utils/helper";
+import { getInfoFromPieceClassName, getPositionFromFen } from "../../utils/helper";
 import { useState } from "react";
 
 const Pieces = () => {
-    const starting_fen = "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2";
-    // const position = getPositionFromFen(starting_fen);
+    const starting_fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
     const [position, setPosition] = useState(getPositionFromFen(starting_fen));
     // console.log(position);
+
     const [isInMove, setIsInMove] = useState(false);
 
+    let pieceTo, rankTo, fileTo;
+    const [pieceFrom, setPieceFrom] = useState(null);
+    const [rankFrom, setRankFrom] = useState(null);
+    const [fileFrom, setFileFrom] = useState(null);
+
     const handlePieceClick = (e) => {
-        // // pick piece
-        // if (!isInMove) {
-        //     const classNameSplit = e.target.className.split(' ');
-        //     const pickedPiece = classNameSplit[1];
-        //     const posSplit = classNameSplit[2].split('');
-        //     const pickedRank = posSplit[2];
-        //     const pickedFile = posSplit[3];
-        //     console.log("pick", pickedPiece, pickedRank, pickedFile);
-            
-        //     setIsInMove(true);
-        // } 
-        // // move piece
-        // else {
-        //     console.log("move", e.target.className);
-        //     setIsInMove(false);
-        // }
+        // pick piece
+        if (!isInMove) {
+            const infoFrom = getInfoFromPieceClassName(e.target.className);
+            setPieceFrom(infoFrom[0]);
+            setRankFrom(infoFrom[1]);
+            setFileFrom(infoFrom[2]);
+            setIsInMove(true);
+        } 
+        // move piece
+        else {
+            [pieceTo, rankTo, fileTo] = getInfoFromPieceClassName(e.target.className);
+            console.log("pick", pieceFrom, rankFrom, fileFrom);
+            console.log("move", pieceTo, rankTo, fileTo);
+            // change position
+            if (pieceFrom !== pieceTo || rankFrom !== rankTo || fileFrom !== fileTo) {
+                const newPosition = position.map((r, rank) => r.map((f, file) => position[rank][file]));
+                newPosition[parseInt(rankTo)][parseInt(fileTo)] = pieceFrom;
+                newPosition[parseInt(rankFrom)][parseInt(fileFrom)] = "-";
+                setPosition(newPosition);
+            }
+            setIsInMove(false);
+        }
     }
 
     return (

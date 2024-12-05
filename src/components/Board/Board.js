@@ -14,7 +14,7 @@ const Board = () => {
             <div className="tiles">
                 {ranks.map((rank, i) =>
                     files.map((file, j) => 
-                        <div className={getTileClassName(9 - i, j)} key={rank + "-" + file}></div>
+                        <div className={getTileClassName(i, j)} key={rank + "-" + file}></div>
                     )
                 )}
             </div>
