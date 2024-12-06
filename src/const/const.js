@@ -1,4 +1,6 @@
-export const fen_to_str = new Map([
+export const startingPositionFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+
+export const fenToStr = new Map([
     ["K", "wk"],
     ["Q", "wq"],
     ["B", "wb"],

@@ -1,4 +1,4 @@
-import { fen_to_str } from "../const/const";
+import { fenToStr, startingPositionFen } from "../const/const";
 
 export const getFileChar = (file) => String.fromCharCode(file + 96);
 
@@ -8,17 +8,32 @@ export const getTileClassName = (i, j) => {
     return c;
 }
 
-export const getPositionFromFen = (fen) => {
-    const fen_split = fen.split(' ');
-    const fen_rows = fen_split[0].split('/');
-    const fen_arrs = fen_rows.map((row_str) => row_str.split(''));
+// translating fen to game state
 
-    return fen_arrs.map((row_arr) => translateFenRowArr(row_arr));
+export const getGameStateFromFen = (fen) => {
+    const fenSplit = fen.split(' ');
+
+    // obtain position matrix
+    const fenRows = fenSplit[0].split('/');
+    const fenArrs = fenRows.map((rowStr) => rowStr.split(''));
+    const position = fenArrs.map((rowArr) => translateFenRowArr(rowArr));
+
+    // obtain turn
+    const turn = fenSplit[1];
+
+    // return game state object
+    const gameState = {
+        position: position,
+        turn: turn
+    }
+    return gameState;
 }
 
-export const translateFenRowArr = (row_arr) => {    
-    return row_arr.map((info) => fen_to_str.get(info)).flat(Infinity);
+const translateFenRowArr = (rowArr) => {    
+    return rowArr.map((info) => fenToStr.get(info)).flat(Infinity);
 }
+
+export const getInitGameState = getGameStateFromFen(startingPositionFen);
 
 export const getInfoFromPieceClassName = (className) => {
     const classNameSplit = className.split(' ');
@@ -27,5 +42,11 @@ export const getInfoFromPieceClassName = (className) => {
     const rank = posSplit[2];
     const file = posSplit[3];
 
-    return [piece, rank, file];
+    // return info object
+    const info = {
+        piece: piece,
+        rank: rank,
+        file: file
+    }
+    return info;
 }
