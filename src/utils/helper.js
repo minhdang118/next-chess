@@ -1,4 +1,4 @@
-import { fenToStr, startingPositionFen } from "../const/const";
+import { fenToStr, startingPositionFen } from "../const";
 
 export const getFileChar = (file) => String.fromCharCode(file + 96);
 
@@ -9,7 +9,6 @@ export const getTileClassName = (i, j) => {
 }
 
 // translating fen to game state
-
 export const getGameStateFromFen = (fen) => {
     const fenSplit = fen.split(' ');
 
@@ -23,7 +22,7 @@ export const getGameStateFromFen = (fen) => {
 
     // return game state object
     const gameState = {
-        position: position,
+        position: [position],
         turn: turn
     }
     return gameState;

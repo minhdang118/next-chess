@@ -6,3 +6,4 @@ export function useAppContext() {
     return useContext(AppContext);
 }
 
+export default AppContext;

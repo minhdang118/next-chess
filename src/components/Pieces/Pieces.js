@@ -1,11 +1,16 @@
 import "../../styles/Pieces.css";
 import Piece from "./Piece";
-import { getInfoFromPieceClassName, getInitGameState } from "../../utils/helper";
+import { getInfoFromPieceClassName } from "../../utils/helper";
 import { useState } from "react";
+import { useAppContext } from "../../contexts/Context";
+import { makeNewMove } from "../../reducer/actions/move";
 
 const Pieces = () => {
-    const [position, setPosition] = useState(getInitGameState.position);
-    // console.log(position);
+    const {appState, dispatch} = useAppContext();
+    const currentPosition = appState.position[appState.position.length - 1];
+
+    // const [currentPosition, setcurrentPosition] = useState(getInitGameState.currentPosition);
+    // console.log(currentPosition);
 
     const [isPickingPiece, setIsPickingPiece] = useState(false);
 
@@ -36,12 +41,12 @@ const Pieces = () => {
         console.log("pick", pieceFrom, rankFrom, fileFrom);
         console.log("move", pieceTo, rankTo, fileTo);
 
-        // change position
+        // change currentPosition
         if (pieceFrom !== pieceTo || rankFrom !== rankTo || fileFrom !== fileTo) {
-            const newPosition = position.map((r, rank) => r.map((f, file) => position[rank][file]));
+            const newPosition = currentPosition.map((r, rank) => r.map((f, file) => currentPosition[rank][file]));
             newPosition[parseInt(rankTo)][parseInt(fileTo)] = pieceFrom;
             newPosition[parseInt(rankFrom)][parseInt(fileFrom)] = "-";
-            setPosition(newPosition);
+            dispatch(makeNewMove({newPosition}));
         }
 
         setIsPickingPiece(false);
@@ -57,14 +62,14 @@ const Pieces = () => {
 
     return (
         <div className="pieces">
-            {position.map((r, rank) => 
+            {currentPosition.map((r, rank) => 
                 r.map((f, file) => 
-                    position[rank][file]
+                    currentPosition[rank][file]
                     ?   <Piece
                             key={rank + "-" + file}
                             rank={rank}
                             file={file}
-                            piece={position[rank][file]}
+                            piece={currentPosition[rank][file]}
                             handlePieceClick={handlePieceClick}
                         />
                     :   null
