@@ -1,9 +1,9 @@
 import "../../styles/Pieces.css";
 import Piece from "./Piece";
-import { getInfoFromPieceClassName, getLastElementOfArr } from "../../utils/helper";
+import { getFirstElementOfArr, getInfoFromPieceClassName, getLastElementOfArr } from "../../utils/helper";
 import { useState } from "react";
 import { useAppContext } from "../../contexts/Context";
-import { generateCandidateMoves, makeNewMove } from "../../reducer/actions/move";
+import { clearCandidateMoves, generateCandidateMoves, makeNewMove } from "../../reducer/actions/move";
 import arbiter from "../../arbiter/arbiter";
 
 const Pieces = () => {
@@ -44,15 +44,22 @@ const Pieces = () => {
         rankTo = infoTo.rank;
         fileTo = infoTo.file;
 
+        const fromColor = getFirstElementOfArr(pieceFrom);
+        const toColor = getFirstElementOfArr(pieceTo);
+
         // change currentPosition
-        if (pieceFrom !== pieceTo || rankFrom !== rankTo || fileFrom !== fileTo) {
+        if (appState.candidateMoves?.find((m) => m[0] === parseInt(rankTo) & m[1] === parseInt(fileTo))) {
             const newPosition = currentPosition.map((r, rank) => r.map((f, file) => currentPosition[rank][file]));
             newPosition[parseInt(rankTo)][parseInt(fileTo)] = pieceFrom;
             newPosition[parseInt(rankFrom)][parseInt(fileFrom)] = "-";
             dispatch(makeNewMove({newPosition}));
+        } else if (fromColor === toColor && pieceFrom !== pieceTo) {
+                pickPiece(e);
+                return;
         }
-
+        
         setIsPickingPiece(false);
+        dispatch(clearCandidateMoves());
     }
 
     const handlePieceClick = (e) => {

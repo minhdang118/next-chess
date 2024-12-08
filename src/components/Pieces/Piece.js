@@ -2,8 +2,7 @@ import { useAppContext } from "../../contexts/Context";
 import { getFirstElementOfArr } from "../../utils/helper";
 
 const Piece = ({rank, file, piece, handlePieceClick}) => {
-    const {appState, dispatch} = useAppContext();
-    const {position, turn} = appState;
+    const {appState} = useAppContext();
     const myColor = getFirstElementOfArr(piece)
 
     return (
@@ -17,7 +16,7 @@ const Piece = ({rank, file, piece, handlePieceClick}) => {
         :
         <div 
         className={`piece ${piece} p-${rank}${file}`}
-        onClick={turn === myColor ? handlePieceClick : null}
+        onClick={appState.turn === myColor ? handlePieceClick : null}
         >
         </div>
     );

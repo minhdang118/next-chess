@@ -1,4 +1,4 @@
-import { fenToStr, startingPositionFen } from "../const";
+import { fenToStr } from "../const";
 
 // general
 export const getFirstElementOfArr = (arr) => {
@@ -17,11 +17,7 @@ export const getLastElementOfArr = (arr) => {
 
 export const getFileChar = (file) => String.fromCharCode(file + 96);
 
-export const getTileClassName = (i, j) => {
-    let c = "tile";
-    c += (i + j) % 2 === 0 ? " tile--light" : " tile--dark";
-    return c;
-}
+
 
 // translating fen to game state
 export const getGameStateFromFen = (fen) => {
@@ -47,8 +43,6 @@ export const getGameStateFromFen = (fen) => {
 const translateFenRowArr = (rowArr) => {    
     return rowArr.map((info) => fenToStr.get(info)).flat(Infinity);
 }
-
-export const getInitGameState = getGameStateFromFen(startingPositionFen);
 
 export const getInfoFromPieceClassName = (className) => {
     const classNameSplit = className.split(' ');

@@ -23,6 +23,13 @@ export const reducer = (state, action) => {
             }
         }
 
+        case actionTypes.CLEAR_CANDIDATE_MOVES: {
+            return {
+                ...state,
+                candidateMoves: []
+            }
+        }
+
         default:
             return state;
     }

@@ -3,6 +3,7 @@
     --light-tile: #E8EDF9;
     --dark-tile: #B7C0D8;
     --bg-color: #34364C;
+    --active: #7B61FF;
 }
 
 @media all and (max-width: 450px) {

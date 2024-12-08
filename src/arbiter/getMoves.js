@@ -30,7 +30,6 @@ export const getMoves = ({position, piece, rank, file}) => {
             moves.push([r, f]);
         }
     });
-    
-    console.log(moves);
+
     return moves;
 }
