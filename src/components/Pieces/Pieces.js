@@ -1,19 +1,16 @@
 import "../../styles/Pieces.css";
 import Piece from "./Piece";
-import { getInfoFromPieceClassName } from "../../utils/helper";
+import { getInfoFromPieceClassName, getLastElementOfArr } from "../../utils/helper";
 import { useState } from "react";
 import { useAppContext } from "../../contexts/Context";
-import { makeNewMove } from "../../reducer/actions/move";
+import { generateCandidateMoves, makeNewMove } from "../../reducer/actions/move";
+import arbiter from "../../arbiter/arbiter";
 
 const Pieces = () => {
     const {appState, dispatch} = useAppContext();
-    const currentPosition = appState.position[appState.position.length - 1];
-
-    // const [currentPosition, setcurrentPosition] = useState(getInitGameState.currentPosition);
-    // console.log(currentPosition);
+    const currentPosition = getLastElementOfArr(appState.position);
 
     const [isPickingPiece, setIsPickingPiece] = useState(false);
-
     const [pieceFrom, setPieceFrom] = useState(null);
     const [rankFrom, setRankFrom] = useState(null);
     const [fileFrom, setFileFrom] = useState(null);
@@ -22,13 +19,22 @@ const Pieces = () => {
 
     function pickPiece(e) {
         const infoFrom = getInfoFromPieceClassName(e.target.className);
-
+                
         // prevent picking a blank piece
         if (infoFrom.piece !== "-") {
             setPieceFrom(infoFrom.piece);
             setRankFrom(infoFrom.rank);
             setFileFrom(infoFrom.file);
             setIsPickingPiece(true);
+
+            // get moves
+            const candidateMoves = arbiter.getRegularMoves({
+                position: currentPosition, 
+                piece: infoFrom.piece, 
+                rank: parseInt(infoFrom.rank), 
+                file: parseInt(infoFrom.file)
+            });
+            dispatch(generateCandidateMoves({candidateMoves}));
         }
     }
 
@@ -37,9 +43,6 @@ const Pieces = () => {
         pieceTo = infoTo.piece;
         rankTo = infoTo.rank;
         fileTo = infoTo.file;
-
-        console.log("pick", pieceFrom, rankFrom, fileFrom);
-        console.log("move", pieceTo, rankTo, fileTo);
 
         // change currentPosition
         if (pieceFrom !== pieceTo || rankFrom !== rankTo || fileFrom !== fileTo) {

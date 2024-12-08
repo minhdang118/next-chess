@@ -1,5 +1,20 @@
 import { fenToStr, startingPositionFen } from "../const";
 
+// general
+export const getFirstElementOfArr = (arr) => {
+    if (arr.length > 0) {
+        return arr[0];
+    }
+    return null;
+}
+
+export const getLastElementOfArr = (arr) => {
+    if (arr.length > 0) {
+        return arr[arr.length - 1];
+    }
+    return null;
+}
+
 export const getFileChar = (file) => String.fromCharCode(file + 96);
 
 export const getTileClassName = (i, j) => {
@@ -23,7 +38,8 @@ export const getGameStateFromFen = (fen) => {
     // return game state object
     const gameState = {
         position: [position],
-        turn: turn
+        turn: turn,
+        candidateMoves: []
     }
     return gameState;
 }
