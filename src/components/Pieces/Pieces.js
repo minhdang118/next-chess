@@ -5,57 +5,49 @@ import { useState } from "react";
 import { useAppContext } from "../../contexts/Context";
 import { clearCandidateMoves, generateCandidateMoves, makeNewMove } from "../../reducer/actions/move";
 import arbiter from "../../arbiter/arbiter";
+import { blankPieceNotation } from "../../const";
 
 const Pieces = () => {
     const {appState, dispatch} = useAppContext();
     const currentPosition = getLastElementOfArr(appState.position);
+    const turn = appState.turn;
 
     const [isPickingPiece, setIsPickingPiece] = useState(false);
     const [pieceFrom, setPieceFrom] = useState(null);
     const [rankFrom, setRankFrom] = useState(null);
     const [fileFrom, setFileFrom] = useState(null);
 
-    let pieceTo, rankTo, fileTo;
+    function pickPiece(p, r, f) {
+        setPieceFrom(p);
+        setRankFrom(r);
+        setFileFrom(f);
+        setIsPickingPiece(true);
 
-    function pickPiece(e) {
-        const infoFrom = getInfoFromPieceClassName(e.target.className);
-                
-        // prevent picking a blank piece
-        if (infoFrom.piece !== "-") {
-            setPieceFrom(infoFrom.piece);
-            setRankFrom(infoFrom.rank);
-            setFileFrom(infoFrom.file);
-            setIsPickingPiece(true);
-
-            // get moves
-            const candidateMoves = arbiter.getRegularMoves({
-                position: currentPosition, 
-                piece: infoFrom.piece, 
-                rank: parseInt(infoFrom.rank), 
-                file: parseInt(infoFrom.file)
-            });
-            dispatch(generateCandidateMoves({candidateMoves}));
-        }
+        // get moves
+        const candidateMoves = arbiter.getRegularMoves({
+            position: currentPosition, 
+            piece: p, 
+            rank: parseInt(r), 
+            file: parseInt(f)
+        });
+        dispatch(generateCandidateMoves({candidateMoves}));
     }
 
-    function movePieceAndChangePosition(e) {
-        const infoTo = getInfoFromPieceClassName(e.target.className);
-        pieceTo = infoTo.piece;
-        rankTo = infoTo.rank;
-        fileTo = infoTo.file;
-
-        const fromColor = getFirstElementOfArr(pieceFrom);
-        const toColor = getFirstElementOfArr(pieceTo);
-
+    function movePieceAndChangePosition(pieceTo, rankTo, fileTo, colorTo) {
+        
         // change currentPosition
         if (appState.candidateMoves?.find((m) => m[0] === parseInt(rankTo) & m[1] === parseInt(fileTo))) {
             const newPosition = currentPosition.map((r, rank) => r.map((f, file) => currentPosition[rank][file]));
             newPosition[parseInt(rankTo)][parseInt(fileTo)] = pieceFrom;
-            newPosition[parseInt(rankFrom)][parseInt(fileFrom)] = "-";
+            newPosition[parseInt(rankFrom)][parseInt(fileFrom)] = blankPieceNotation;
             dispatch(makeNewMove({newPosition}));
-        } else if (fromColor === toColor && pieceFrom !== pieceTo) {
-                pickPiece(e);
+        } else {
+            const colorFrom = getFirstElementOfArr(pieceFrom);
+            // switch from move to pick another piece of the same color
+            if (colorFrom === colorTo && pieceFrom !== pieceTo) {
+                pickPiece(pieceTo, rankTo, fileTo);
                 return;
+            }
         }
         
         setIsPickingPiece(false);
@@ -63,10 +55,21 @@ const Pieces = () => {
     }
 
     const handlePieceClick = (e) => {
+        const info = getInfoFromPieceClassName(e.target.className);
+        const p = info.piece;
+        const r = info.rank;
+        const f = info.file;
+        const c = getFirstElementOfArr(p);
+
         if (!isPickingPiece) {
-            pickPiece(e);
+            // cannot pick a blank piece or a piece of a color that is not their turn
+            if (p === blankPieceNotation || c !== turn) {
+                return null;
+            } else {
+                return pickPiece(p, r, f);
+            }
         } else {
-            movePieceAndChangePosition(e);
+            return movePieceAndChangePosition(p, r, f, c);
         }
     }
 
@@ -76,7 +79,7 @@ const Pieces = () => {
                 r.map((f, file) => 
                     currentPosition[rank][file]
                     ?   <Piece
-                            key={rank + "-" + file}
+                            key={rank + "_" + file}
                             rank={rank}
                             file={file}
                             piece={currentPosition[rank][file]}

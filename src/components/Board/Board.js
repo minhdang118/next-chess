@@ -1,3 +1,4 @@
+import { blankPieceNotation } from "../../const";
 import { useAppContext } from "../../contexts/Context";
 import "../../styles/Board.css";
 import { getLastElementOfArr } from "../../utils/helper";
@@ -17,7 +18,7 @@ const Board = () => {
         c += (i + j) % 2 === 0 ? " tile--light" : " tile--dark";
         
         if (appState.candidateMoves?.find((m) => m[0] === i & m[1] === j)) {
-            if (position[i][j] === "-") {
+            if (position[i][j] === blankPieceNotation) {
                 c += " highlight";
             } else {
                 c += " attacking";
@@ -35,7 +36,7 @@ const Board = () => {
             <div className="tiles">
                 {ranks.map((rank, i) =>
                     files.map((file, j) => 
-                        <div className={getTileClassName(i, j)} key={rank + "-" + file}></div>
+                        <div className={getTileClassName(i, j)} key={rank + "_" + file}></div>
                     )
                 )}
             </div>

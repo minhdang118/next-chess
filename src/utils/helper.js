@@ -18,7 +18,6 @@ export const getLastElementOfArr = (arr) => {
 export const getFileChar = (file) => String.fromCharCode(file + 96);
 
 
-
 // translating fen to game state
 export const getGameStateFromFen = (fen) => {
     const fenSplit = fen.split(' ');
