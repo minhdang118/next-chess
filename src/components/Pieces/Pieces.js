@@ -43,7 +43,7 @@ const Pieces = () => {
             dispatch(makeNewMove({newPosition}));
         } else {
             const colorFrom = getFirstElementOfArr(pieceFrom);
-            // switch from move to pick another piece of the same color
+            // switch from moving to picking another piece of the same color
             if (colorFrom === colorTo && pieceFrom !== pieceTo) {
                 pickPiece(pieceTo, rankTo, fileTo);
                 return;

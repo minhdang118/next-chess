@@ -30,7 +30,7 @@
     width: calc(0.2 * var(--tile-size));
     height: calc(0.2 * var(--tile-size));
     background: var(--active);
-    opacity: 0.5;
+    opacity: 0.25;
     border-radius: 50%;
     left: 40%;
     top: 40%;
@@ -40,11 +40,11 @@
     content: "";
     display: block;
     position: relative;
-    width: calc(var(--tile-size) - 10px);
-    height: calc(var(--tile-size) - 10px);
-    opacity: 0.5;
+    width: calc(0.8 * var(--tile-size));
+    height: calc(0.8 * var(--tile-size));
+    opacity: 0.25;
     border-radius: 50%;
-    border: 5px solid var(--active);
+    border: calc(0.1 * var(--tile-size)) solid var(--active);
     left: 0;
     top: 0;
 }
