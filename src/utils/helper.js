@@ -8,6 +8,13 @@ export const getFirstElementOfArr = (arr) => {
     return null;
 }
 
+export const getSecondLastElementOfArr = (arr) => {
+    if (arr.length > 1) {
+        return arr[arr.length - 2];
+    }
+    return null;
+}
+
 export const getLastElementOfArr = (arr) => {
     if (arr.length > 0) {
         return arr[arr.length - 1];

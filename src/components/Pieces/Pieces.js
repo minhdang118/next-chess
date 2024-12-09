@@ -1,11 +1,11 @@
 import "../../styles/Pieces.css";
 import Piece from "./Piece";
-import { getFirstElementOfArr, getInfoFromPieceClassName, getLastElementOfArr } from "../../utils/helper";
+import { getFirstElementOfArr, getInfoFromPieceClassName, getLastElementOfArr, getSecondLastElementOfArr } from "../../utils/helper";
 import { useState } from "react";
 import { useAppContext } from "../../contexts/Context";
 import { clearCandidateMoves, generateCandidateMoves, makeNewMove } from "../../reducer/actions/move";
 import arbiter from "../../arbiter/arbiter";
-import { blankPieceNotation } from "../../const";
+import { blankPieceNotation, pawnNotation } from "../../const";
 
 const Pieces = () => {
     const {appState, dispatch} = useAppContext();
@@ -24,8 +24,9 @@ const Pieces = () => {
         setIsPickingPiece(true);
 
         // get moves
-        const candidateMoves = arbiter.getRegularMoves({
+        const candidateMoves = arbiter.getValidMoves({
             position: currentPosition, 
+            prevPosition: getSecondLastElementOfArr(appState.position),
             piece: p, 
             rank: parseInt(r), 
             file: parseInt(f)
@@ -34,12 +35,30 @@ const Pieces = () => {
     }
 
     function movePieceAndChangePosition(pieceTo, rankTo, fileTo, colorTo) {
+        const intRankFrom = parseInt(rankFrom);
+        const intFileFrom = parseInt(fileFrom);
+        const intRankTo = parseInt(rankTo);
+        const intFileTo = parseInt(fileTo);
         
         // change currentPosition
-        if (appState.candidateMoves?.find((m) => m[0] === parseInt(rankTo) & m[1] === parseInt(fileTo))) {
-            const newPosition = currentPosition.map((r, rank) => r.map((f, file) => currentPosition[rank][file]));
-            newPosition[parseInt(rankTo)][parseInt(fileTo)] = pieceFrom;
-            newPosition[parseInt(rankFrom)][parseInt(fileFrom)] = blankPieceNotation;
+        if (appState.candidateMoves?.find((m) => m[0] === intRankTo & m[1] === intFileTo)) {
+            const newPosition = 
+                currentPosition.map((r, rank) => 
+                    r.map((f, file) => 
+                        currentPosition[rank][file]));
+
+            // en passant configurations
+            if (pieceFrom.endsWith(pawnNotation) && 
+                newPosition[intRankTo][intFileTo] === blankPieceNotation &&
+                intRankFrom !== intRankTo && 
+                intFileFrom !== intFileTo
+                ) {
+                newPosition[intRankFrom][intFileTo] = blankPieceNotation;
+            }
+
+            // regular move configurations
+            newPosition[intRankTo][intFileTo] = pieceFrom;
+            newPosition[intRankFrom][intFileFrom] = blankPieceNotation;
             dispatch(makeNewMove({newPosition}));
         } else {
             const colorFrom = getFirstElementOfArr(pieceFrom);

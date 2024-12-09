@@ -1,5 +1,5 @@
 import { bishopNotation, kingNotation, knightNotation, pawnNotation, queenNotation, rookNotation } from "../const";
-import { getBishopMoves, getKingMoves, getKnightMoves, getPawnMoves, getQueenMoves, getRookMoves } from "./getMoves";
+import { getBishopMoves, getKingMoves, getKnightMoves, getPawnCaptures, getPawnMoves, getQueenMoves, getRookMoves } from "./getMoves";
 
 const arbiter = {
     getRegularMoves : function({position, piece, rank, file}) {
@@ -23,6 +23,17 @@ const arbiter = {
         }
         
     },
+    getValidMoves : function({position, prevPosition, piece, rank, file}) {
+        let validMoves = this.getRegularMoves({position, piece, rank, file});
+        if (piece.endsWith(pawnNotation)) {
+            validMoves = [
+                ...validMoves,
+                ...getPawnCaptures({position, prevPosition, piece, rank, file})
+            ];
+        }
+
+        return validMoves;
+    }
 }
 
 export default arbiter;
