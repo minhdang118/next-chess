@@ -1,25 +1,31 @@
-import { fenToStr } from "../const";
+import { fenToStr, Status } from "../const";
 
 // general
-export const getFirstElementOfArr = (arr) => {
+const getFirstElementOfArr = (arr) => {
     if (arr.length > 0) {
         return arr[0];
     }
     return null;
 }
 
-export const getSecondLastElementOfArr = (arr) => {
+const getSecondLastElementOfArr = (arr) => {
     if (arr.length > 1) {
         return arr[arr.length - 2];
     }
     return null;
 }
 
-export const getLastElementOfArr = (arr) => {
+const getLastElementOfArr = (arr) => {
     if (arr.length > 0) {
         return arr[arr.length - 1];
     }
     return null;
+}
+
+export const getArrayElement = {
+    "first" : getFirstElementOfArr,
+    "last" : getLastElementOfArr,
+    "secondLast" : getSecondLastElementOfArr
 }
 
 export const getFileChar = (file) => String.fromCharCode(file + 96);
@@ -41,7 +47,9 @@ export const getGameStateFromFen = (fen) => {
     const gameState = {
         position: [position],
         turn: turn,
-        candidateMoves: []
+        candidateMoves: [],
+        status: Status.ongoing,
+        promotionSquare: null
     }
     return gameState;
 }

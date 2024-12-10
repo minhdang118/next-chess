@@ -1,0 +1,17 @@
+.popup {
+    position: absolute;
+    /* background-color: rgba(200, 0, 0, 0.5); */
+    /* grid-column: 2; */
+    /* display: flex; */
+    width: calc(8* var(--tile-size));
+    height: calc(8* var(--tile-size));
+    margin-left: calc(0.5* var(--tile-size));
+}
+
+.popup-inner {
+    width: 12.5%;
+    min-width: 12.5%;
+    background: var(--light-tile);
+    position: absolute;
+    box-shadow: calc(0.025 * var(--tile-size)) calc(0.025 * var(--tile-size)) calc(0.1 * var(--tile-size)) calc(0.025 * var(--tile-size)) var(--piece-black);
+}

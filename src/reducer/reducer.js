@@ -1,4 +1,4 @@
-import { blackColorNotation, whiteColorNotation } from "../const";
+import { ColorNotation } from "../const";
 import actionTypes from "./actionTypes";
 
 export const reducer = (state, action) => {
@@ -9,7 +9,7 @@ export const reducer = (state, action) => {
                 ...position,
                 action.payload.newPosition
             ]
-            turn = turn === whiteColorNotation ? blackColorNotation : whiteColorNotation;
+            turn = turn === ColorNotation.white ? ColorNotation.black : ColorNotation.white;
             return {
                 ...state,
                 position,

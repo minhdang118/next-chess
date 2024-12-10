@@ -4,6 +4,9 @@
     --dark-tile: #B7C0D8;
     --bg-color: #34364C;
     --active: #7B61FF;
+    --piece-black: #34364C;
+    --piece-white: #F4F7FA;
+    
 }
 
 @media all and (max-width: 450px) {

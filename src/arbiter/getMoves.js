@@ -1,12 +1,12 @@
-import { blackColorNotation, blankPieceNotation, pawnNotation, whiteColorNotation } from "../const";
-import { getFirstElementOfArr } from "../utils/helper";
+import { PieceNotation, ColorNotation } from "../const";
+import { getArrayElement } from "../utils/helper";
 
 const offsets = Array(7).fill().map((x, i) => i + 1);
 
-export const getRookMoves = ({position, piece, rank, file}) => {
+const getRookMoves = ({position, piece, rank, file}) => {
     const moves = [];
-    const myColor = getFirstElementOfArr(piece);
-    const oppColor = myColor === whiteColorNotation ? blackColorNotation : whiteColorNotation;
+    const myColor = getArrayElement.first(piece);
+    const oppColor = myColor === ColorNotation.white ? ColorNotation.black : ColorNotation.white;
     const directions = [
         [-1, 0],
         [1, 0],
@@ -35,10 +35,10 @@ export const getRookMoves = ({position, piece, rank, file}) => {
     return moves;
 }
 
-export const getKnightMoves = ({position, piece, rank, file}) => {
+const getKnightMoves = ({position, piece, rank, file}) => {
     const moves = [];
-    const myColor = getFirstElementOfArr(piece);
-    const oppColor = myColor === whiteColorNotation ? blackColorNotation : whiteColorNotation;
+    const myColor = getArrayElement.first(piece);
+    const oppColor = myColor === ColorNotation.white ? ColorNotation.black : ColorNotation.white;
     const candidates = [
         [-2, -1],
         [-2, 1],
@@ -55,7 +55,7 @@ export const getKnightMoves = ({position, piece, rank, file}) => {
         const f = file + cand[1]
         const candInfo = position?.[r]?.[f];
         if (candInfo !== undefined && 
-            (candInfo.startsWith(oppColor) || candInfo === blankPieceNotation)) {
+            (candInfo.startsWith(oppColor) || candInfo === PieceNotation.blank)) {
             moves.push([r, f]);
         }
     })
@@ -63,10 +63,10 @@ export const getKnightMoves = ({position, piece, rank, file}) => {
     return moves;
 }
 
-export const getBishopMoves = ({position, piece, rank, file}) => {
+const getBishopMoves = ({position, piece, rank, file}) => {
     const moves = [];
-    const myColor = getFirstElementOfArr(piece);
-    const oppColor = myColor === whiteColorNotation ? blackColorNotation : whiteColorNotation;
+    const myColor = getArrayElement.first(piece);
+    const oppColor = myColor === ColorNotation.white ? ColorNotation.black : ColorNotation.white;
     const directions = [
         [-1, -1],
         [-1, 1],
@@ -95,7 +95,7 @@ export const getBishopMoves = ({position, piece, rank, file}) => {
     return moves;
 }
 
-export const getQueenMoves = ({position, piece, rank, file}) => {
+const getQueenMoves = ({position, piece, rank, file}) => {
     const moves = [
         ...getRookMoves({position, piece, rank, file}),
         ...getBishopMoves({position, piece, rank, file})
@@ -103,10 +103,10 @@ export const getQueenMoves = ({position, piece, rank, file}) => {
     return moves;
 }
 
-export const getKingMoves = ({position, piece, rank, file}) => {
+const getKingMoves = ({position, piece, rank, file}) => {
     const moves = [];
-    const myColor = getFirstElementOfArr(piece);
-    const oppColor = myColor === whiteColorNotation ? blackColorNotation : whiteColorNotation;
+    const myColor = getArrayElement.first(piece);
+    const oppColor = myColor === ColorNotation.white ? ColorNotation.black : ColorNotation.white;
     const candidates = [
         [-1, -1],
         [-1, 0],
@@ -123,7 +123,7 @@ export const getKingMoves = ({position, piece, rank, file}) => {
         const f = file + cand[1]
         const candInfo = position?.[r]?.[f];
         if (candInfo !== undefined && 
-            (candInfo.startsWith(oppColor) || candInfo === blankPieceNotation)) {
+            (candInfo.startsWith(oppColor) || candInfo === PieceNotation.blank)) {
             moves.push([r, f]);
         }
     })
@@ -131,10 +131,10 @@ export const getKingMoves = ({position, piece, rank, file}) => {
     return moves;
 }
 
-export const getPawnMoves = ({position, piece, rank, file}) => {
+const getPawnMoves = ({position, piece, rank, file}) => {
     const moves = [];
-    const myColor = getFirstElementOfArr(piece);
-    const moveDirection = myColor === whiteColorNotation ? -1 : 1;
+    const myColor = getArrayElement.first(piece);
+    const moveDirection = myColor === ColorNotation.white ? -1 : 1;
     
     // configure forward moves
     const r1 = rank + moveDirection;
@@ -144,14 +144,14 @@ export const getPawnMoves = ({position, piece, rank, file}) => {
 
     // normal pawn push
     if (oneSquareForwardCandInfo !== undefined && 
-        oneSquareForwardCandInfo === blankPieceNotation) {
+        oneSquareForwardCandInfo === PieceNotation.blank) {
         moves.push([r1, file]);
     }
 
     // possible 2-square pawn push
     if (rank % 5 === 1) {
-        if (oneSquareForwardCandInfo === blankPieceNotation && 
-            twoSquaresForwardCandInfo === blankPieceNotation) {
+        if (oneSquareForwardCandInfo === PieceNotation.blank && 
+            twoSquaresForwardCandInfo === PieceNotation.blank) {
             moves.push([r2, file]);
         }
     }
@@ -159,17 +159,17 @@ export const getPawnMoves = ({position, piece, rank, file}) => {
     return moves;
 }
 
-export const getPawnCaptures = ({position, prevPosition, piece, rank, file}) => {
+const getPawnCaptures = ({position, prevPosition, piece, rank, file}) => {
     const moves = [];
-    const myColor = getFirstElementOfArr(piece);
-    const oppColor = myColor === whiteColorNotation ? blackColorNotation : whiteColorNotation;
-    const moveDirection = myColor === whiteColorNotation ? -1 : 1;
+    const myColor = getArrayElement.first(piece);
+    const oppColor = myColor === ColorNotation.white ? ColorNotation.black : ColorNotation.white;
+    const moveDirection = myColor === ColorNotation.white ? -1 : 1;
     
     const r1 = rank + moveDirection;
     const r2 = r1 + moveDirection;
     // configure captures
     const captureDirections = 
-    myColor === whiteColorNotation 
+    myColor === ColorNotation.white 
     ? [[-1, -1], [-1, 1]] 
     : [[1, -1], [1, 1]];
 
@@ -183,16 +183,16 @@ export const getPawnCaptures = ({position, prevPosition, piece, rank, file}) => 
     });
 
     // en passant
-    const oppPawn = `${oppColor}${pawnNotation}`;
+    const oppPawn = `${oppColor}${PieceNotation.pawn}`;
     const adjacentFiles = [file - 1, file + 1];
 
     if (prevPosition) {
-        if ((myColor === whiteColorNotation && rank === 3) || 
-        (myColor === blackColorNotation && rank === 4)) {
+        if ((myColor === ColorNotation.white && rank === 3) || 
+        (myColor === ColorNotation.black && rank === 4)) {
             adjacentFiles.forEach((adjFile) => {
                 if (position?.[rank]?.[adjFile] === oppPawn && 
-                    position?.[r2]?.[adjFile] === blankPieceNotation &&
-                    prevPosition?.[rank]?.[adjFile] === blankPieceNotation && 
+                    position?.[r2]?.[adjFile] === PieceNotation.blank &&
+                    prevPosition?.[rank]?.[adjFile] === PieceNotation.blank && 
                     prevPosition?.[r2]?.[adjFile] === oppPawn
                 ) {
                     moves.push([r1, adjFile]);
@@ -202,4 +202,17 @@ export const getPawnCaptures = ({position, prevPosition, piece, rank, file}) => 
     }
 
     return moves;
+}
+
+export const getMoves = {
+    "king" : getKingMoves,
+    "queen" : getQueenMoves,
+    "bishop" : getBishopMoves,
+    "knight" : getKnightMoves,
+    "rook" : getRookMoves,
+    "pawn" : getPawnMoves
+}
+
+export const getCaptures = {
+    "pawn" : getPawnCaptures
 }

@@ -1,15 +1,15 @@
 import "../../styles/Pieces.css";
 import Piece from "./Piece";
-import { getFirstElementOfArr, getInfoFromPieceClassName, getLastElementOfArr, getSecondLastElementOfArr } from "../../utils/helper";
+import { getArrayElement, getInfoFromPieceClassName } from "../../utils/helper";
 import { useState } from "react";
 import { useAppContext } from "../../contexts/Context";
 import { clearCandidateMoves, generateCandidateMoves, makeNewMove } from "../../reducer/actions/move";
 import arbiter from "../../arbiter/arbiter";
-import { blankPieceNotation, pawnNotation } from "../../const";
+import { PieceNotation } from "../../const";
 
 const Pieces = () => {
     const {appState, dispatch} = useAppContext();
-    const currentPosition = getLastElementOfArr(appState.position);
+    const currentPosition = getArrayElement.last(appState.position);
     const turn = appState.turn;
 
     const [isPickingPiece, setIsPickingPiece] = useState(false);
@@ -26,7 +26,7 @@ const Pieces = () => {
         // get moves
         const candidateMoves = arbiter.getValidMoves({
             position: currentPosition, 
-            prevPosition: getSecondLastElementOfArr(appState.position),
+            prevPosition: getArrayElement.secondLast(appState.position),
             piece: p, 
             rank: parseInt(r), 
             file: parseInt(f)
@@ -48,20 +48,20 @@ const Pieces = () => {
                         currentPosition[rank][file]));
 
             // en passant configurations
-            if (pieceFrom.endsWith(pawnNotation) && 
-                newPosition[intRankTo][intFileTo] === blankPieceNotation &&
+            if (pieceFrom.endsWith(PieceNotation.pawn) && 
+                newPosition[intRankTo][intFileTo] === PieceNotation.blank &&
                 intRankFrom !== intRankTo && 
                 intFileFrom !== intFileTo
                 ) {
-                newPosition[intRankFrom][intFileTo] = blankPieceNotation;
+                newPosition[intRankFrom][intFileTo] = PieceNotation.blank;
             }
 
             // regular move configurations
             newPosition[intRankTo][intFileTo] = pieceFrom;
-            newPosition[intRankFrom][intFileFrom] = blankPieceNotation;
+            newPosition[intRankFrom][intFileFrom] = PieceNotation.blank;
             dispatch(makeNewMove({newPosition}));
         } else {
-            const colorFrom = getFirstElementOfArr(pieceFrom);
+            const colorFrom = getArrayElement.first(pieceFrom);
             // switch from moving to picking another piece of the same color
             if (colorFrom === colorTo && pieceFrom !== pieceTo) {
                 pickPiece(pieceTo, rankTo, fileTo);
@@ -78,11 +78,11 @@ const Pieces = () => {
         const p = info.piece;
         const r = info.rank;
         const f = info.file;
-        const c = getFirstElementOfArr(p);
+        const c = getArrayElement.first(p);
 
         if (!isPickingPiece) {
             // cannot pick a blank piece or a piece of a color that is not their turn
-            if (p === blankPieceNotation || c !== turn) {
+            if (p === PieceNotation.blank || c !== turn) {
                 return null;
             } else {
                 return pickPiece(p, r, f);
