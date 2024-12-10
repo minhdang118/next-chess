@@ -49,7 +49,7 @@ export const getGameStateFromFen = (fen) => {
         turn: turn,
         candidateMoves: [],
         status: Status.ongoing,
-        promotionSquare: null
+        promotionInfo: null
     }
     return gameState;
 }
@@ -72,4 +72,8 @@ export const getInfoFromPieceClassName = (className) => {
         file: file
     }
     return info;
+}
+
+export const copyPosition = (position) => {
+    return position.map((r, rank) => r.map((f, file) => position[rank][file]));
 }

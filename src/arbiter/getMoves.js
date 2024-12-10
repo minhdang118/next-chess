@@ -183,7 +183,7 @@ const getPawnCaptures = ({position, prevPosition, piece, rank, file}) => {
     });
 
     // en passant
-    const oppPawn = `${oppColor}${PieceNotation.pawn}`;
+    const oppPawn = oppColor + PieceNotation.pawn;
     const adjacentFiles = [file - 1, file + 1];
 
     if (prevPosition) {

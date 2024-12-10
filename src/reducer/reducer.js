@@ -1,4 +1,4 @@
-import { ColorNotation } from "../const";
+import { ColorNotation, Status } from "../const";
 import actionTypes from "./actionTypes";
 
 export const reducer = (state, action) => {
@@ -28,6 +28,22 @@ export const reducer = (state, action) => {
             return {
                 ...state,
                 candidateMoves: []
+            }
+        }
+
+        case actionTypes.PROMOTION_OPEN: {
+            return {
+                ...state,
+                status : Status.promoting,
+                promotionInfo : {...action.payload}
+            }
+        }
+
+        case actionTypes.PROMOTION_CLOSE: {
+            return {
+                ...state,
+                status : Status.ongoing,
+                promotionInfo : null
             }
         }
 

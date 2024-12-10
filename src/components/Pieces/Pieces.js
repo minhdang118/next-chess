@@ -5,7 +5,8 @@ import { useState } from "react";
 import { useAppContext } from "../../contexts/Context";
 import { clearCandidateMoves, generateCandidateMoves, makeNewMove } from "../../reducer/actions/move";
 import arbiter from "../../arbiter/arbiter";
-import { PieceNotation } from "../../const";
+import { ColorNotation, PieceNotation } from "../../const";
+import { openPromotionBox } from "../../reducer/actions/popup";
 
 const Pieces = () => {
     const {appState, dispatch} = useAppContext();
@@ -28,37 +29,31 @@ const Pieces = () => {
             position: currentPosition, 
             prevPosition: getArrayElement.secondLast(appState.position),
             piece: p, 
-            rank: parseInt(r), 
-            file: parseInt(f)
+            rank: r, 
+            file: f
         });
         dispatch(generateCandidateMoves({candidateMoves}));
     }
 
     function movePieceAndChangePosition(pieceTo, rankTo, fileTo, colorTo) {
-        const intRankFrom = parseInt(rankFrom);
-        const intFileFrom = parseInt(fileFrom);
-        const intRankTo = parseInt(rankTo);
-        const intFileTo = parseInt(fileTo);
         
         // change currentPosition
-        if (appState.candidateMoves?.find((m) => m[0] === intRankTo & m[1] === intFileTo)) {
-            const newPosition = 
-                currentPosition.map((r, rank) => 
-                    r.map((f, file) => 
-                        currentPosition[rank][file]));
-
-            // en passant configurations
-            if (pieceFrom.endsWith(PieceNotation.pawn) && 
-                newPosition[intRankTo][intFileTo] === PieceNotation.blank &&
-                intRankFrom !== intRankTo && 
-                intFileFrom !== intFileTo
-                ) {
-                newPosition[intRankFrom][intFileTo] = PieceNotation.blank;
+        if (appState.candidateMoves?.find((m) => m[0] === rankTo & m[1] === fileTo)) {
+            // check for pawn promotion availability
+            if ((pieceFrom === ColorNotation.white + PieceNotation.pawn &&  rankTo === 0) ||
+                (pieceFrom === ColorNotation.black + PieceNotation.pawn &&  rankTo === 7)) {
+                setIsPickingPiece(false);
+                dispatch(openPromotionBox({rankFrom, fileFrom, rankTo, fileTo}));
+                return;
             }
 
-            // regular move configurations
-            newPosition[intRankTo][intFileTo] = pieceFrom;
-            newPosition[intRankFrom][intFileFrom] = PieceNotation.blank;
+            // perform a move
+            const newPosition = arbiter.performMove({
+                currentPosition,
+                pieceFrom, rankFrom, fileFrom,
+                pieceTo, rankTo, fileTo
+            });
+            
             dispatch(makeNewMove({newPosition}));
         } else {
             const colorFrom = getArrayElement.first(pieceFrom);
@@ -76,8 +71,8 @@ const Pieces = () => {
     const handlePieceClick = (e) => {
         const info = getInfoFromPieceClassName(e.target.className);
         const p = info.piece;
-        const r = info.rank;
-        const f = info.file;
+        const r = parseInt(info.rank);
+        const f = parseInt(info.file);
         const c = getArrayElement.first(p);
 
         if (!isPickingPiece) {
