@@ -24,9 +24,7 @@ const Board = () => {
             } else {
                 c += " attacking";
             }
-            
         }
-
         return c;
     }
 

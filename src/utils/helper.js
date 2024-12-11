@@ -43,6 +43,27 @@ export const getGameStateFromFen = (fen) => {
     // obtain turn
     const turn = fenSplit[1];
 
+    // obtain castling rights
+    const dirStr = fenSplit[2];
+    const dirWhite = [];
+    const dirBlack = [];
+
+    for (let char in dirStr) {
+        if (char === "K") {
+            dirWhite.push(CastlingDirectionNotation.kingSide);
+        } else if (char === "Q") {
+            dirWhite.push(CastlingDirectionNotation.queenSide);
+        } else if (char === "k") {
+            dirBlack.push(CastlingDirectionNotation.kingSide);
+        } else if (char === "q") {
+            dirBlack.push(CastlingDirectionNotation.queenSide);
+        }
+    }
+    const castlingDirections = {
+        w : dirWhite,
+        b : dirBlack
+    }
+
     // return game state object
     const gameState = {
         position : [position],
@@ -50,10 +71,7 @@ export const getGameStateFromFen = (fen) => {
         candidateMoves : [],
         status : Status.ongoing,
         promotionInfo : null,
-        castlingDirections : {
-            w : [CastlingDirectionNotation.kingSide, CastlingDirectionNotation.queenSide],
-            b : [CastlingDirectionNotation.kingSide, CastlingDirectionNotation.queenSide]
-        }
+        castlingDirections : castlingDirections
     }
     return gameState;
 }

@@ -82,8 +82,6 @@ const Pieces = () => {
         
         setIsPickingPiece(false);
         dispatch(clearCandidateMoves());
-        console.log(castlingDirections);
-        
     }
 
     const handlePieceClick = (e) => {
