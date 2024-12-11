@@ -1,4 +1,4 @@
-import { fenToStr, Status } from "../const";
+import { CastlingDirectionNotation, fenToStr, Status } from "../const";
 
 // general
 const getFirstElementOfArr = (arr) => {
@@ -45,11 +45,15 @@ export const getGameStateFromFen = (fen) => {
 
     // return game state object
     const gameState = {
-        position: [position],
-        turn: turn,
-        candidateMoves: [],
-        status: Status.ongoing,
-        promotionInfo: null
+        position : [position],
+        turn : turn,
+        candidateMoves : [],
+        status : Status.ongoing,
+        promotionInfo : null,
+        castlingDirections : {
+            w : [CastlingDirectionNotation.kingSide, CastlingDirectionNotation.queenSide],
+            b : [CastlingDirectionNotation.kingSide, CastlingDirectionNotation.queenSide]
+        }
     }
     return gameState;
 }

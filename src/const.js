@@ -17,6 +17,11 @@ export const ColorNotation = {
     "black" : "b"
 }
 
+export const CastlingDirectionNotation = {
+    "kingSide" : "kingSide",
+    "queenSide" : "queenSide"
+}
+
 export const fenToStr = new Map([
     ["K", ColorNotation.white + PieceNotation.king],
     ["Q", ColorNotation.white + PieceNotation.queen],

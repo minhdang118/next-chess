@@ -1,4 +1,4 @@
-import { PieceNotation, ColorNotation } from "../const";
+import { PieceNotation, ColorNotation, CastlingDirectionNotation } from "../const";
 import { getArrayElement } from "../utils/helper";
 
 const offsets = Array(7).fill().map((x, i) => i + 1);
@@ -131,6 +131,75 @@ const getKingMoves = ({position, piece, rank, file}) => {
     return moves;
 }
 
+const getCastlingMoves = ({position, castlingDirections, piece, rank, file}) => {
+    const moves = [];
+
+    // unable to castle
+    if (file !== 4 || rank % 7 !== 0 || !castlingDirections) {
+        return moves;
+    }
+
+    if (piece.startsWith(ColorNotation.white)) {
+        if (castlingDirections.includes("kingSide") &&
+            position[7][5] === PieceNotation.blank &&
+            position[7][6] === PieceNotation.blank &&
+            position[7][7] === ColorNotation.white + PieceNotation.rook
+        ) {
+            moves.push([7, 6]);
+        }
+        if (castlingDirections.includes("queenSide") &&
+            position[7][3] === PieceNotation.blank &&
+            position[7][2] === PieceNotation.blank &&
+            position[7][1] === PieceNotation.blank &&
+            position[7][0] === ColorNotation.white + PieceNotation.rook
+        ) {
+            moves.push([7, 2]);
+        }
+    }
+
+    if (piece.startsWith(ColorNotation.black)) {
+        if (castlingDirections.includes("kingSide") &&
+            position[0][5] === PieceNotation.blank &&
+            position[0][6] === PieceNotation.blank &&
+            position[0][7] === ColorNotation.black + PieceNotation.rook
+        ) {
+            moves.push([0, 6]);
+        }
+        if (castlingDirections.includes("queenSide") &&
+            position[0][3] === PieceNotation.blank &&
+            position[0][2] === PieceNotation.blank &&
+            position[0][1] === PieceNotation.blank &&
+            position[0][0] === ColorNotation.black + PieceNotation.rook
+        ) {
+            moves.push([0, 2]);
+        }
+    }
+
+    return moves;
+}
+
+const getCastlingDirections = ({castlingDirections, piece, rank, file}) => {
+    const color = getArrayElement.first(piece);
+    const directions = castlingDirections[color];
+
+    // king has moved
+    if (piece.endsWith(PieceNotation.king)) {
+        return [];
+    }
+
+    // rook has moved
+    if (piece.endsWith(PieceNotation.rook)) {
+        if (file === 7) {
+            directions.filter((side) => side !== CastlingDirectionNotation.kingSide);
+        }
+        if (file === 0) {
+            directions.filter((side) => side !== CastlingDirectionNotation.queenSide);
+        }
+    }
+
+    return directions;
+}
+
 const getPawnMoves = ({position, piece, rank, file}) => {
     const moves = [];
     const myColor = getArrayElement.first(piece);
@@ -215,4 +284,9 @@ export const getMoves = {
 
 export const getCaptures = {
     "pawn" : getPawnCaptures
+}
+
+export const getCastling = {
+    "moves" : getCastlingMoves,
+    "directions" : getCastlingDirections
 }

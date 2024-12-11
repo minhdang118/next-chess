@@ -1,6 +1,6 @@
 import { PieceNotation } from "../const";
-import { copyPosition } from "../utils/helper";
-import { getCaptures, getMoves } from "./getMoves";
+import { getCaptures, getCastling, getMoves } from "./getMoves";
+import { movePawn, movePiece } from "./move";
 
 const arbiter = {
     getRegularMoves : function({position, piece, rank, file}) {
@@ -25,7 +25,7 @@ const arbiter = {
         }
         
     },
-    getValidMoves : function({position, prevPosition, piece, rank, file}) {
+    getValidMoves : function({position, prevPosition, castlingDirections, piece, rank, file}) {
         let validMoves = this.getRegularMoves({position, piece, rank, file});
         if (piece.endsWith(PieceNotation.pawn)) {
             validMoves = [
@@ -33,27 +33,21 @@ const arbiter = {
                 ...getCaptures.pawn({position, prevPosition, piece, rank, file})
             ];
         }
+        if (piece.endsWith(PieceNotation.king)) {
+            validMoves = [
+                ...validMoves,
+                ...getCastling.moves({position, castlingDirections, piece, rank, file})
+            ];
+        }
 
         return validMoves;
     },
     performMove : function({currentPosition, pieceFrom, rankFrom, fileFrom, pieceTo, rankTo, fileTo}) {
-        // deep copy of position
-        const newPosition = copyPosition(currentPosition);
-
-        // en passant configurations
-        if (pieceFrom.endsWith(PieceNotation.pawn) && 
-            newPosition[rankTo][fileTo] === PieceNotation.blank &&
-            rankFrom !== rankTo && 
-            fileFrom !== fileTo
-            ) {
-            newPosition[rankFrom][fileTo] = PieceNotation.blank;
+        if (pieceFrom.endsWith(PieceNotation.pawn)) {
+            return movePawn({currentPosition, pieceFrom, rankFrom, fileFrom, pieceTo, rankTo, fileTo});
+        } else {
+            return movePiece({currentPosition, pieceFrom, rankFrom, fileFrom, pieceTo, rankTo, fileTo});
         }
-
-        // regular move configurations
-        newPosition[rankTo][fileTo] = pieceFrom;
-        newPosition[rankFrom][fileFrom] = PieceNotation.blank;
-        
-        return newPosition;
     }
 }
 
