@@ -48,7 +48,7 @@ export const getGameStateFromFen = (fen) => {
     const dirWhite = [];
     const dirBlack = [];
 
-    for (let char in dirStr) {
+    for (let char of dirStr) {
         if (char === "K") {
             dirWhite.push(CastlingDirectionNotation.kingSide);
         } else if (char === "Q") {

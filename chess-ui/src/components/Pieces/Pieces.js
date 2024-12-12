@@ -38,7 +38,16 @@ const Pieces = () => {
         dispatch(generateCandidateMoves({candidateMoves}));
     }
 
-    function movePieceAndChangePosition(pieceTo, rankTo, fileTo, colorTo) {
+    function movePieceAndChangePosition(pieceTo, rankTo, fileTo) {
+
+        const colorFrom = getArrayElement.first(pieceFrom);
+        const colorTo = getArrayElement.first(pieceTo);
+
+        // switch from moving to picking another piece of the same color
+        if (colorFrom === colorTo) {
+            pickPiece(pieceTo, rankTo, fileTo);
+            return;
+        }
         
         // change currentPosition
         if (candidateMoves?.find((m) => m[0] === rankTo & m[1] === fileTo)) {
@@ -71,13 +80,6 @@ const Pieces = () => {
                 
                 dispatch(updateCastling({directions}));
             }
-        } else {
-            const colorFrom = getArrayElement.first(pieceFrom);
-            // switch from moving to picking another piece of the same color
-            if (colorFrom === colorTo && pieceFrom !== pieceTo) {
-                pickPiece(pieceTo, rankTo, fileTo);
-                return;
-            }
         }
         
         setIsPickingPiece(false);
@@ -86,20 +88,20 @@ const Pieces = () => {
 
     const handlePieceClick = (e) => {
         const info = getInfoFromPieceClassName(e.target.className);
-        const p = info.piece;
-        const r = parseInt(info.rank);
-        const f = parseInt(info.file);
-        const c = getArrayElement.first(p);
+        const piece = info.piece;
+        const rank = parseInt(info.rank);
+        const file = parseInt(info.file);
+        const color = getArrayElement.first(piece);
 
         if (!isPickingPiece) {
             // cannot pick a blank piece or a piece of a color that is not their turn
-            if (p === PieceNotation.blank || c !== turn) {
+            if (piece === PieceNotation.blank || color !== turn) {
                 return null;
             } else {
-                return pickPiece(p, r, f);
+                return pickPiece(piece, rank, file);
             }
         } else {
-            return movePieceAndChangePosition(p, r, f, c);
+            return movePieceAndChangePosition(piece, rank, file);
         }
     }
 
