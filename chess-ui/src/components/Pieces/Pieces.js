@@ -20,20 +20,22 @@ const Pieces = () => {
     const [rankFrom, setRankFrom] = useState(null);
     const [fileFrom, setFileFrom] = useState(null);
 
-    function pickPiece(p, r, f) {
-        setPieceFrom(p);
-        setRankFrom(r);
-        setFileFrom(f);
+    function pickPiece(piece, rank, file) {
+        setPieceFrom(piece);
+        setRankFrom(rank);
+        setFileFrom(file);
         setIsPickingPiece(true);
+
+        const color = getArrayElement.first(piece);
 
         // get moves
         const candidateMoves = arbiter.getValidMoves({
             position: currentPosition, 
             prevPosition: getArrayElement.secondLast(position),
-            castlingDirections: castlingDirections[turn],
-            piece: p, 
-            rank: r, 
-            file: f
+            castlingDirections: castlingDirections[color],
+            piece: piece, 
+            rank: rank, 
+            file: file
         });
         dispatch(generateCandidateMoves({candidateMoves}));
     }

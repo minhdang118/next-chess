@@ -49,7 +49,8 @@ export const reducer = (state, action) => {
 
         case actionTypes.CAN_CASTLE: {
             let {turn, castlingDirections} = state;
-            castlingDirections[turn] = action.payload.directions;
+            const oppTurn = turn === ColorNotation.white ? ColorNotation.black : ColorNotation.white;
+            castlingDirections[oppTurn] = action.payload.directions;
             
             return {
                 ...state,

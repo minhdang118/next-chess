@@ -51,3 +51,12 @@ export const Status = {
     "white" : "White wins",
     "black" : "Black wins"
 }
+
+export const MovesDefinition = {
+    "kingCandidates" : [ [-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1] ],
+    "bishopDirections" : [ [-1, -1], [-1, 1], [1, -1], [1, 1]],
+    "knightCandidates" : [ [-2, -1], [-2, 1], [-1, -2], [-1, 2], [1, -2], [1, 2], [2, -1], [2, 1] ],
+    "rookDirections" : [ [-1, 0], [1, 0], [0, -1], [0, 1] ],
+    "whitePawnCaptures" : [ [-1, -1], [-1, 1] ],
+    "blackPawnCaptures" : [ [1, -1], [1, 1] ]
+}

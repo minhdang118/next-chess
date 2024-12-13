@@ -1,0 +1,1 @@
+- When king or rook is moved, castling rights are not removed.
