@@ -1,13 +1,14 @@
 import "../../styles/Popup.css";
 import PromotionBox from "./PromotionBox";
-import { useAppContext } from "../../contexts/Context";
 import { Status } from "../../const";
+import { useSelector } from "react-redux";
+import { selectStatus } from "../../app/gameSlice";
 
 const Popup = () => {
-    const {appState} = useAppContext();
+    const status = useSelector(selectStatus);
 
     // no popup in an ongoing game
-    if (appState.status === Status.ongoing) {
+    if (status === Status.ongoing) {
         return null;
     }
 

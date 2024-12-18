@@ -1,9 +1,9 @@
 import { PieceNotation } from "../const";
 import { copyPosition, getArrayElement } from "../utils/helper";
 
-export const movePiece = ({currentPosition, pieceFrom, rankFrom, fileFrom, pieceTo, rankTo, fileTo}) => {
+export const movePiece = ({currPosition, pieceFrom, rankFrom, fileFrom, pieceTo, rankTo, fileTo}) => {
     // deep copy of position
-    const newPosition = copyPosition(currentPosition);
+    const newPosition = copyPosition(currPosition);
     const colorFrom = getArrayElement.first(pieceFrom);
 
     // castling move for rooks
@@ -27,9 +27,9 @@ export const movePiece = ({currentPosition, pieceFrom, rankFrom, fileFrom, piece
     return newPosition;
 }
 
-export const movePawn = ({currentPosition, pieceFrom, rankFrom, fileFrom, pieceTo, rankTo, fileTo}) => {
+export const movePawn = ({currPosition, pieceFrom, rankFrom, fileFrom, pieceTo, rankTo, fileTo}) => {
     // deep copy of position
-    const newPosition = copyPosition(currentPosition);
+    const newPosition = copyPosition(currPosition);
 
     // en passant
     if (newPosition[rankTo][fileTo] === PieceNotation.blank &&

@@ -5,7 +5,7 @@ const offsets = Array(7).fill().map((x, i) => i + 1);
 
 
 // king
-const getKingMoves = ({position, piece, rank, file}) => {
+const getKingMoves = ({currPosition, piece, rank, file}) => {
     const moves = [];
     const myColor = getArrayElement.first(piece);
     const oppColor = myColor === ColorNotation.white ? ColorNotation.black : ColorNotation.white;
@@ -13,7 +13,7 @@ const getKingMoves = ({position, piece, rank, file}) => {
     MovesDefinition.kingCandidates.forEach((cand) => {
         const r = rank + cand[0];
         const f = file + cand[1]
-        const candInfo = position?.[r]?.[f];
+        const candInfo = currPosition?.[r]?.[f];
         if (candInfo !== undefined && 
             (candInfo.startsWith(oppColor) || candInfo === PieceNotation.blank)) {
             moves.push([r, f]);
@@ -25,17 +25,17 @@ const getKingMoves = ({position, piece, rank, file}) => {
 
 
 // queen
-const getQueenMoves = ({position, piece, rank, file}) => {
+const getQueenMoves = ({currPosition, piece, rank, file}) => {
     const moves = [
-        ...getRookMoves({position, piece, rank, file}),
-        ...getBishopMoves({position, piece, rank, file})
+        ...getRookMoves({currPosition, piece, rank, file}),
+        ...getBishopMoves({currPosition, piece, rank, file})
     ];
     return moves;
 }
 
 
 // bishop
-const getBishopMoves = ({position, piece, rank, file}) => {
+const getBishopMoves = ({currPosition, piece, rank, file}) => {
     const moves = [];
     const myColor = getArrayElement.first(piece);
     const oppColor = myColor === ColorNotation.white ? ColorNotation.black : ColorNotation.white;
@@ -45,14 +45,14 @@ const getBishopMoves = ({position, piece, rank, file}) => {
             const r = rank + (offset * dir[0]);
             const f = file + (offset * dir[1]);
             
-            if (position?.[r]?.[f] === undefined) {
+            if (currPosition?.[r]?.[f] === undefined) {
                 break;
             }
-            if (position[r][f].startsWith(oppColor)) {
+            if (currPosition[r][f].startsWith(oppColor)) {
                 moves.push([r, f]);
                 break;
             }
-            if (position[r][f].startsWith(myColor)) {
+            if (currPosition[r][f].startsWith(myColor)) {
                 break;
             }
             moves.push([r, f]);
@@ -64,7 +64,7 @@ const getBishopMoves = ({position, piece, rank, file}) => {
 
 
 // knight
-const getKnightMoves = ({position, piece, rank, file}) => {
+const getKnightMoves = ({currPosition, piece, rank, file}) => {
     const moves = [];
     const myColor = getArrayElement.first(piece);
     const oppColor = myColor === ColorNotation.white ? ColorNotation.black : ColorNotation.white;
@@ -72,7 +72,7 @@ const getKnightMoves = ({position, piece, rank, file}) => {
     MovesDefinition.knightCandidates.forEach((cand) => {
         const r = rank + cand[0];
         const f = file + cand[1]
-        const candInfo = position?.[r]?.[f];
+        const candInfo = currPosition?.[r]?.[f];
         if (candInfo !== undefined && 
             (candInfo.startsWith(oppColor) || candInfo === PieceNotation.blank)) {
             moves.push([r, f]);
@@ -84,7 +84,7 @@ const getKnightMoves = ({position, piece, rank, file}) => {
 
 
 // rook
-const getRookMoves = ({position, piece, rank, file}) => {
+const getRookMoves = ({currPosition, piece, rank, file}) => {
     const moves = [];
     const myColor = getArrayElement.first(piece);
     const oppColor = myColor === ColorNotation.white ? ColorNotation.black : ColorNotation.white;
@@ -94,14 +94,14 @@ const getRookMoves = ({position, piece, rank, file}) => {
             const r = rank + (offset * dir[0]);
             const f = file + (offset * dir[1]);
             
-            if (position?.[r]?.[f] === undefined) {
+            if (currPosition?.[r]?.[f] === undefined) {
                 break;
             }
-            if (position[r][f].startsWith(oppColor)) {
+            if (currPosition[r][f].startsWith(oppColor)) {
                 moves.push([r, f]);
                 break;
             }
-            if (position[r][f].startsWith(myColor)) {
+            if (currPosition[r][f].startsWith(myColor)) {
                 break;
             }
             moves.push([r, f]);
@@ -113,7 +113,7 @@ const getRookMoves = ({position, piece, rank, file}) => {
 
 
 // pawn
-const getPawnMoves = ({position, piece, rank, file}) => {
+const getPawnMoves = ({currPosition, piece, rank, file}) => {
     const moves = [];
     const myColor = getArrayElement.first(piece);
     const moveDirection = myColor === ColorNotation.white ? -1 : 1;
@@ -121,8 +121,8 @@ const getPawnMoves = ({position, piece, rank, file}) => {
     // configure forward moves
     const r1 = rank + moveDirection;
     const r2 = r1 + moveDirection;
-    const oneSquareForwardCandInfo = position?.[r1]?.[file];
-    const twoSquaresForwardCandInfo = position?.[r2]?.[file];
+    const oneSquareForwardCandInfo = currPosition?.[r1]?.[file];
+    const twoSquaresForwardCandInfo = currPosition?.[r2]?.[file];
 
     // normal pawn push
     if (oneSquareForwardCandInfo !== undefined && 
@@ -142,7 +142,7 @@ const getPawnMoves = ({position, piece, rank, file}) => {
 }
 
 
-const getPawnCaptures = ({position, prevPosition, piece, rank, file}) => {
+const getPawnCaptures = ({currPosition, prevPosition, piece, rank, file}) => {
     const moves = [];
     const myColor = getArrayElement.first(piece);
     const oppColor = myColor === ColorNotation.white ? ColorNotation.black : ColorNotation.white;
@@ -159,7 +159,7 @@ const getPawnCaptures = ({position, prevPosition, piece, rank, file}) => {
     captureDirections.forEach((captDir) => {
         const captRank = rank + captDir[0];
         const captFile = file + captDir[1];
-        const captureCandInfo = position?.[captRank]?.[captFile];
+        const captureCandInfo = currPosition?.[captRank]?.[captFile];
         if (captureCandInfo !== undefined && captureCandInfo.startsWith(oppColor)) {
             moves.push([captRank, captFile]);
         }
@@ -173,8 +173,8 @@ const getPawnCaptures = ({position, prevPosition, piece, rank, file}) => {
         if ((myColor === ColorNotation.white && rank === 3) || 
         (myColor === ColorNotation.black && rank === 4)) {
             adjacentFiles.forEach((adjFile) => {
-                if (position?.[rank]?.[adjFile] === oppPawn && 
-                    position?.[r2]?.[adjFile] === PieceNotation.blank &&
+                if (currPosition?.[rank]?.[adjFile] === oppPawn && 
+                    currPosition?.[r2]?.[adjFile] === PieceNotation.blank &&
                     prevPosition?.[rank]?.[adjFile] === PieceNotation.blank && 
                     prevPosition?.[r2]?.[adjFile] === oppPawn
                 ) {
@@ -189,7 +189,7 @@ const getPawnCaptures = ({position, prevPosition, piece, rank, file}) => {
 
 
 // castling
-const getCastlingMoves = ({position, castlingDirections: directions, piece, rank, file}) => {
+const getCastlingMoves = ({currPosition, castlingDirections: directions, piece, rank, file}) => {
     const moves = [];
 
     // unable to castle
@@ -199,17 +199,17 @@ const getCastlingMoves = ({position, castlingDirections: directions, piece, rank
 
     if (piece.startsWith(ColorNotation.white)) {
         if (directions.includes(CastlingDirectionNotation.kingSide) &&
-            position[7][5] === PieceNotation.blank &&
-            position[7][6] === PieceNotation.blank &&
-            position[7][7] === ColorNotation.white + PieceNotation.rook
+        currPosition[7][5] === PieceNotation.blank &&
+        currPosition[7][6] === PieceNotation.blank &&
+        currPosition[7][7] === ColorNotation.white + PieceNotation.rook
         ) {
             moves.push([7, 6]);
         }
         if (directions.includes(CastlingDirectionNotation.queenSide) &&
-            position[7][3] === PieceNotation.blank &&
-            position[7][2] === PieceNotation.blank &&
-            position[7][1] === PieceNotation.blank &&
-            position[7][0] === ColorNotation.white + PieceNotation.rook
+        currPosition[7][3] === PieceNotation.blank &&
+        currPosition[7][2] === PieceNotation.blank &&
+        currPosition[7][1] === PieceNotation.blank &&
+        currPosition[7][0] === ColorNotation.white + PieceNotation.rook
         ) {
             moves.push([7, 2]);
         }
@@ -217,17 +217,17 @@ const getCastlingMoves = ({position, castlingDirections: directions, piece, rank
 
     if (piece.startsWith(ColorNotation.black)) {
         if (directions.includes(CastlingDirectionNotation.kingSide) &&
-            position[0][5] === PieceNotation.blank &&
-            position[0][6] === PieceNotation.blank &&
-            position[0][7] === ColorNotation.black + PieceNotation.rook
+        currPosition[0][5] === PieceNotation.blank &&
+        currPosition[0][6] === PieceNotation.blank &&
+        currPosition[0][7] === ColorNotation.black + PieceNotation.rook
         ) {
             moves.push([0, 6]);
         }
         if (directions.includes(CastlingDirectionNotation) &&
-            position[0][3] === PieceNotation.blank &&
-            position[0][2] === PieceNotation.blank &&
-            position[0][1] === PieceNotation.blank &&
-            position[0][0] === ColorNotation.black + PieceNotation.rook
+        currPosition[0][3] === PieceNotation.blank &&
+        currPosition[0][2] === PieceNotation.blank &&
+        currPosition[0][1] === PieceNotation.blank &&
+        currPosition[0][0] === ColorNotation.black + PieceNotation.rook
         ) {
             moves.push([0, 2]);
         }

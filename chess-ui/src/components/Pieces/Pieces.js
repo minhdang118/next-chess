@@ -2,18 +2,21 @@ import "../../styles/Pieces.css";
 import Piece from "./Piece";
 import { getArrayElement, getInfoFromPieceClassName } from "../../utils/helper";
 import { useState } from "react";
-import { useAppContext } from "../../contexts/Context";
-import { clearCandidateMoves, generateCandidateMoves, makeNewMove } from "../../reducer/actions/move";
 import arbiter from "../../arbiter/arbiter";
 import { ColorNotation, PieceNotation } from "../../const";
-import { openPromotionBox } from "../../reducer/actions/popup";
-import { updateCastling } from "../../reducer/actions/game";
 import { getCastling } from "../../arbiter/getMoves";
+import { useSelector, useDispatch } from 'react-redux';
+import { clearCandidateMoves, generateCandidateMoves, makeNewMove, openPromotionBox, selectCandidateMoves, selectCastlingDirections, selectPositions, selectTurn, updateCastling } from "../../app/gameSlice";
 
 const Pieces = () => {
-    const {appState, dispatch} = useAppContext();
-    const {position, turn, candidateMoves, castlingDirections} = appState;
-    const currentPosition = getArrayElement.last(position);
+    const positions = useSelector(selectPositions);
+    const turn = useSelector(selectTurn);
+    const candidateMoves = useSelector(selectCandidateMoves);
+    const castlingDirections = useSelector(selectCastlingDirections);
+
+    const currPosition = getArrayElement.last(positions);
+    const prevPosition = getArrayElement.secondLast(positions);
+    const dispatch = useDispatch();
 
     const [isPickingPiece, setIsPickingPiece] = useState(false);
     const [pieceFrom, setPieceFrom] = useState(null);
@@ -30,8 +33,8 @@ const Pieces = () => {
 
         // get moves
         const candidateMoves = arbiter.getValidMoves({
-            position: currentPosition, 
-            prevPosition: getArrayElement.secondLast(position),
+            currPosition: currPosition, 
+            prevPosition: prevPosition,
             castlingDirections: castlingDirections[color],
             piece: piece, 
             rank: rank, 
@@ -51,7 +54,7 @@ const Pieces = () => {
             return;
         }
         
-        // change currentPosition
+        // change position
         if (candidateMoves?.find((m) => m[0] === rankTo & m[1] === fileTo)) {
             
             // pawn promotion
@@ -64,7 +67,7 @@ const Pieces = () => {
 
             // perform a move
             const newPosition = arbiter.performMove({
-                currentPosition,
+                currPosition: currPosition,
                 pieceFrom, rankFrom, fileFrom,
                 pieceTo, rankTo, fileTo
             });
@@ -109,14 +112,14 @@ const Pieces = () => {
 
     return (
         <div className="pieces">
-            {currentPosition.map((r, rank) => 
+            {currPosition.map((r, rank) => 
                 r.map((f, file) => 
-                    currentPosition[rank][file]
+                    currPosition[rank][file]
                     ?   <Piece
                             key={rank + "_" + file}
                             rank={rank}
                             file={file}
-                            piece={currentPosition[rank][file]}
+                            piece={currPosition[rank][file]}
                             handlePieceClick={handlePieceClick}
                         />
                     :   null

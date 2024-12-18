@@ -66,7 +66,7 @@ export const getGameStateFromFen = (fen) => {
 
     // return game state object
     const gameState = {
-        position : [position],
+        positions : [position],
         turn : turn,
         candidateMoves : [],
         status : Status.ongoing,

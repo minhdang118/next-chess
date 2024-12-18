@@ -1,15 +1,19 @@
+import { useDispatch, useSelector } from "react-redux";
 import { PieceNotation } from "../../const";
-import { useAppContext } from "../../contexts/Context";
-import { clearCandidateMoves, makeNewMove } from "../../reducer/actions/move";
-import { closePopup } from "../../reducer/actions/popup";
 import "../../styles/PromotionBox.css";
 import { copyPosition, getArrayElement } from "../../utils/helper";
+import { clearCandidateMoves, closePopup, makeNewMove, selectPositions, selectPromotionInfo, selectTurn } from "../../app/gameSlice";
 
 const PromotionBox = () => {
-    const options = [PieceNotation.queen, PieceNotation.rook, PieceNotation.bishop, PieceNotation.knight];
+    const promotionOptions = [PieceNotation.queen, PieceNotation.rook, PieceNotation.bishop, PieceNotation.knight];
 
-    const {appState, dispatch} = useAppContext();
-    const {position, promotionInfo, turn} = appState;
+    const positions = useSelector(selectPositions);
+    const turn = useSelector(selectTurn);
+    const promotionInfo = useSelector(selectPromotionInfo);
+
+    const currPosition = getArrayElement.last(positions);
+
+    const dispatch = useDispatch();
 
     // no promotion available
     if (!promotionInfo) {
@@ -35,7 +39,7 @@ const PromotionBox = () => {
     }
 
     const handlePromotionClick = (chosenPiece) => {
-        const newPosition = copyPosition(getArrayElement.last(position));
+        const newPosition = copyPosition(currPosition);
         newPosition[promotionInfo.rankFrom][promotionInfo.fileFrom] = PieceNotation.blank;
         newPosition[promotionInfo.rankTo][promotionInfo.fileTo] = color + chosenPiece;
 
@@ -46,7 +50,7 @@ const PromotionBox = () => {
 
     return (
         <div className="popup-inner promotion-choices" style={getPromotionBoxPosition()}>
-            {options.map((option) => 
+            {promotionOptions.map((option) => 
                 <div 
                 key={option}
                 className={`piece ${color}${option}`}
