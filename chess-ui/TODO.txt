@@ -1,1 +1,4 @@
-- When king or rook is moved, castling rights are not removed.
+- Checks
+- Checkmate
+- Stalemate
+
