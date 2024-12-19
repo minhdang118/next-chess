@@ -33,12 +33,12 @@ const Pieces = () => {
 
         // get moves
         const candidateMoves = arbiter.getValidMoves({
-            currPosition: currPosition, 
-            prevPosition: prevPosition,
+            currPosition, 
+            prevPosition,
             castlingDirections: castlingDirections[color],
-            piece: piece, 
-            rank: rank, 
-            file: file
+            piece, 
+            rank, 
+            file
         });
         dispatch(generateCandidateMoves({candidateMoves}));
     }
@@ -67,7 +67,7 @@ const Pieces = () => {
 
             // perform a move
             const newPosition = arbiter.performMove({
-                currPosition: currPosition,
+                currPosition,
                 pieceFrom, rankFrom, fileFrom,
                 pieceTo, rankTo, fileTo
             });

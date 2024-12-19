@@ -48,8 +48,8 @@ export const fenToStr = new Map([
 export const Status = {
     "ongoing" : "Ongoing",
     "promoting" : "Promoting",
-    "white" : "White wins",
-    "black" : "Black wins"
+    "whiteWins" : "White wins",
+    "blackWins" : "Black wins"
 }
 
 export const MovesDefinition = {
