@@ -11,26 +11,6 @@ const arbiter = {
                 return getMoves[notationKey]({currPosition, piece, rank, file});
             }
         }
-        // if (piece.endsWith(PieceNotation.king)) {
-        //     return getMoves.king({currPosition, piece, rank, file});
-        // }
-        // if (piece.endsWith(PieceNotation.queen)) {
-        //     return getMoves.queen({currPosition, piece, rank, file});
-        // }
-        // if (piece.endsWith(PieceNotation.bishop)) {
-        //     return getMoves.bishop({currPosition, piece, rank, file});
-        // }
-        // if (piece.endsWith(PieceNotation.knight)) {
-        //     return getMoves.knight({currPosition, piece, rank, file});
-        // }
-        // if (piece.endsWith(PieceNotation.rook)) {
-        //     return getMoves.rook({currPosition, piece, rank, file});
-        // }
-        
-        // if (piece.endsWith(PieceNotation.pawn)) {
-        //     return getMoves.pawn({currPosition, piece, rank, file});
-        // }
-        
     },
     getValidMoves : function({currPosition, prevPosition, castlingDirections, piece, rank, file}) {
         let validMoves = this.getRegularMoves({currPosition, piece, rank, file});

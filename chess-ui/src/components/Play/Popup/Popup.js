@@ -1,8 +1,8 @@
-import "../../styles/Popup.css";
+import "../../../styles/Popup.css";
 import PromotionBox from "./PromotionBox";
-import { Status } from "../../const";
+import { Status } from "../../../const";
 import { useSelector } from "react-redux";
-import { selectStatus } from "../../app/gameSlice";
+import { selectStatus } from "../../../app/gameSlice";
 
 const Popup = () => {
     const status = useSelector(selectStatus);

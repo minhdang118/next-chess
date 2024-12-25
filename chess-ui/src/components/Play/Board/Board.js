@@ -1,12 +1,12 @@
 import { useSelector } from "react-redux";
-import { PieceNotation } from "../../const";
-import "../../styles/Board.css";
+import { PieceNotation } from "../../../const";
+import "../../../styles/Board.css";
 import Pieces from "../Pieces/Pieces";
 import Popup from "../Popup/Popup";
 import FileInd from "./FileInd";
 import RankInd from "./RankInd";
-import { selectCandidateMoves, selectPositions } from "../../app/gameSlice";
-import { getArrayElement } from "../../utils/helper";
+import { selectCandidateMoves, selectPositions } from "../../../app/gameSlice";
+import { getArrayElement } from "../../../utils/helper";
 
 const Board = () => {
     const ranks = Array(8).fill().map((x, i) => i + 1);

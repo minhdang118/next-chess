@@ -1,11 +1,21 @@
 import './App.css';
-import Board from './components/Board/Board';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Play from './components/Play/Play';
+import LoginSignup from './components/LoginSignup/LoginSignup';
 
 function App() {
   return (
-    <div className="App">
-      <Board/>
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route exact path='/' element={ <LoginSignup /> }></Route>
+          <Route path='/play' element={ <Play /> }></Route>
+          <Route path='*'></Route>
+        </Routes>
+        
+      </div>
+    </Router>
+    
   );
 }
 

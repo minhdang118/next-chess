@@ -1,12 +1,12 @@
-import "../../styles/Pieces.css";
+import "../../../styles/Pieces.css";
 import Piece from "./Piece";
-import { getArrayElement, getInfoFromPieceClassName } from "../../utils/helper";
+import { getArrayElement, getInfoFromPieceClassName } from "../../../utils/helper";
 import { useState } from "react";
-import arbiter from "../../arbiter/arbiter";
-import { ColorNotation, PieceNotation } from "../../const";
-import { getCastling } from "../../arbiter/getMoves";
+import arbiter from "../../../arbiter/arbiter";
+import { ColorNotation, PieceNotation } from "../../../const";
+import { getCastling } from "../../../arbiter/getMoves";
 import { useSelector, useDispatch } from 'react-redux';
-import { clearCandidateMoves, generateCandidateMoves, makeNewMove, openPromotionBox, selectCandidateMoves, selectCastlingDirections, selectPositions, selectTurn, updateCastling } from "../../app/gameSlice";
+import { clearCandidateMoves, generateCandidateMoves, makeNewMove, openPromotionBox, selectCandidateMoves, selectCastlingDirections, selectPositions, selectTurn, updateCastling } from "../../../app/gameSlice";
 
 const Pieces = () => {
     const positions = useSelector(selectPositions);

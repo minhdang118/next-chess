@@ -1,4 +1,4 @@
-import "../../styles/RankInd.css";
+import "../../../styles/RankInd.css";
 
 const RankInd = ({ranks}) => {
     return (

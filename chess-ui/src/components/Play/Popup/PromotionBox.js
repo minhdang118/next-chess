@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
-import { PieceNotation } from "../../const";
-import "../../styles/PromotionBox.css";
-import { copyPosition, getArrayElement } from "../../utils/helper";
-import { clearCandidateMoves, closePopup, makeNewMove, selectPositions, selectPromotionInfo, selectTurn } from "../../app/gameSlice";
+import { PieceNotation } from "../../../const";
+import "../../../styles/PromotionBox.css";
+import { copyPosition, getArrayElement } from "../../../utils/helper";
+import { clearCandidateMoves, closePopup, makeNewMove, selectPositions, selectPromotionInfo, selectTurn } from "../../../app/gameSlice";
 
 const PromotionBox = () => {
     const promotionOptions = [PieceNotation.queen, PieceNotation.rook, PieceNotation.bishop, PieceNotation.knight];
