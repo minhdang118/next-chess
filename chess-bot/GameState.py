@@ -1,5 +1,6 @@
 from const import *
 from Move import *
+from ConsoleGraphics import getBoardGraphics
 
 class GameState:
     def __init__(self, fen: str):
@@ -19,7 +20,7 @@ class GameState:
         pass
 
     def fenToBoard(self, fen: str):
-        board = [[], [], [], [], [], [], [], []]
+        board: list[list[str]] = [[] for _ in range(8)]
         fenSplit = fen.split(" ")
         fenRows = fenSplit[0].split("/")
         for idx, row in enumerate(fenRows):
@@ -174,6 +175,6 @@ class GameState:
 
 
 
-gs = GameState()
 fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
-print(gs.fenToBoard(fen=fen))
+gs = GameState(fen=fen)
+print(getBoardGraphics(gs.board))

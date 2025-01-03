@@ -18,7 +18,14 @@ const LoginSignup = () => {
                     }}>
                         <LockOutlinedIcon />
                     </Avatar>
-                    <Typography component="h1" variant="h5" sx={{textAlign: "center"}}>
+                    <Typography 
+                        component="h1" 
+                        variant="h5" 
+                        sx={{
+                            textAlign: "center",
+                            mb: 1
+                            }}
+                    >
                         Log In
                     </Typography>
                     <Box component="form" onSubmit={handleSubmit} noValidate sx={{mt: 1}}>
@@ -27,19 +34,25 @@ const LoginSignup = () => {
                             fullWidth
                             required
                             autoFocus
-                            sx={{mb: 2}}
+                            sx={{mb: 1}}
                         />
                         <TextField
                             placeholder="Enter password"
                             fullWidth
                             required
                             type="password"
+                            sx={{mb: 2}}
                         />
-                        <Button type="submit" variant="contained" fullWidth sx={{mt: 1}}>
+                        <Button 
+                            color="inherit"
+                            type="submit" 
+                            variant="contained" 
+                            fullWidth 
+                            sx={{mb: 2}}>
                             Log In
                         </Button>
                     </Box>
-                    <Grid2 container  justifyContent="space-between" sx={{mt: 1}}>
+                    <Grid2 container  justifyContent="space-between" sx={{mb: 0}}>
                         <Link component={RouterLink} to="/play">
                             Continue as Guest
                         </Link>
