@@ -1,3 +1,10 @@
+from enum import Enum
+import numpy as np
+
+class Color(Enum):
+    WHITE = 0
+    BLACK = 1
+
 CHESS_RANKS_TO_RANKS = {
     "1": 7,
     "2": 6,
@@ -35,3 +42,7 @@ FEN_TO_BOARD_NOTATION = {
     "p": "bP"
 }
 
+NOT_A_FILE = np.uint64(18374403900871474942)
+NOT_H_FILE = np.uint64(9187201950435737471)
+NOT_AB_FILE = np.uint64(18229723555195321596)
+NOT_GH_FILE = np.uint64(4557430888798830399)

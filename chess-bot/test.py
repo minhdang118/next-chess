@@ -1,13 +1,12 @@
 import numpy as np
+from utils import *
 
-t = 2.0
- 
-t1 = int(t)
-print(f"t1 = {type(t1)}")
- 
- 
-t2 = np.int32(t)
-print(f"t2 = {type(t2)}")
- 
-t3 = np.int64(t)
-print(f"t3 = {type(t3)}")
+bb = np.uint64(0)
+
+for rank in range(8):
+    for file in range(8):
+        square = rank * 8 + file
+        if file > 1:
+            bb = setBit(bb, square)
+
+printBitboard(bb)
