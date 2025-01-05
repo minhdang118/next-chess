@@ -28,11 +28,12 @@ class Game:
     
     def test(self):
         block = ZERO
-        block = setBit(block, 34)
         block = setBit(block, 11)
         block = setBit(block, 19)
+        block = setBit(block, 34)
         block = setBit(block, 39)
-        printBitboard(block)
+        # printBitboard(block)
+        print(getLs1bIndex(block))
 
         for square in range(64):
             self.bishop.bishopAttacks[square] = self.bishop.bishopAttacksOnTheFly(square, block)
@@ -41,4 +42,4 @@ class Game:
         # for sq in range(64):
         #     printBitboard(self.bishop.bishopAttacks[sq])
 
-        printBitboard(self.rook.rookAttacks[35])
+        # printBitboard(self.rook.rookAttacks[35])
