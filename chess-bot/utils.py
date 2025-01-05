@@ -1,16 +1,15 @@
 import numpy as np
-
-unit = np.uint64(1)
+from const import *
 
 def getBit(bitboard: np.uint64, square: int):
-        return bitboard & (unit << square)
+        return bitboard & (UNIT << square)
     
 def setBit(bitboard: np.uint64, square: int):
-    return bitboard | (unit << square)
+    return bitboard | (UNIT << square)
 
 def popBit(bitboard: np.uint64, square: int):
     if getBit(bitboard, square):
-        return bitboard ^ (unit << square)
+        return bitboard ^ (UNIT << square)
     return bitboard
 
 def printBitboard(bitboard: np.uint64):

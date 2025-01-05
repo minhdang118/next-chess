@@ -1,6 +1,7 @@
 from Pawn import Pawn
 from Knight import Knight
 from King import King
+from Bishop import Bishop
 from const import *
 from utils import *
 
@@ -9,6 +10,7 @@ class Game:
         self.pawn = Pawn()
         self.knight = Knight()
         self.king = King()
+        self.bishop = Bishop()
 
     def initLeapersAttacks(self):
         for square in range(64):
@@ -22,9 +24,7 @@ class Game:
 
             # init king attacks
             self.king.kingAttacks[square] = self.king.maskKingAttacks(square)
-
-
-# g = Game()
-# g.initLeapersAttacks()
-# for sq in range(64):
-#     printBitboard(g.king.kingAttacks[sq])
+    
+    def test(self):
+        for square in range(64):
+            self.bishop.bishopAttacks[square] = self.bishop.maskBishopAttacks(square)

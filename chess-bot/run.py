@@ -8,8 +8,9 @@ game = Game()
 
 game.initLeapersAttacks()
 
-# for sq in range(64):
-#     printBitboard(game.king.kingAttacks[sq])
+game.test()
+for sq in range(64):
+    printBitboard(game.bishop.bishopAttacks[sq])
 
 end = time.time()
 
