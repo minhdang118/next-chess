@@ -42,6 +42,7 @@ FEN_TO_BOARD_NOTATION = {
     "p": "bP"
 }
 
+ZERO = np.uint64(0)
 UNIT = np.uint64(1)
 NOT_A_FILE = np.uint64(18374403900871474942)
 NOT_H_FILE = np.uint64(9187201950435737471)

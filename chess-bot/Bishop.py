@@ -12,7 +12,7 @@ class Bishop:
         attacks = np.uint64(0)
 
         # init target rank and file
-        targetRank = int(square / 8)
+        targetRank = int(square // 8)
         targetFile = int(square % 8)
 
         # mask relevant bishop occupancy bits
@@ -27,6 +27,39 @@ class Bishop:
 
         for r, f in zip(range(targetRank - 1, 0, -1), range(targetFile - 1, 0, -1)):
             attacks |= (UNIT << r * 8 + f)
+
+        # return attacks bitboard
+        return attacks
+    
+    # # generate bishop attacks bitboard on the fly
+    def bishopAttacksOnTheFly(self, square: int, block: np.uint64):
+        # result attacks bitboard
+        attacks = np.uint64(0)
+
+        # init target rank and file
+        targetRank = int(square // 8)
+        targetFile = int(square % 8)
+
+        # mask relevant bishop occupancy bits
+        for r, f in zip(range(targetRank + 1, 8, 1), range(targetFile + 1, 8, 1)):
+            attacks |= (UNIT << r * 8 + f)
+            if (UNIT << r * 8 + f) & block:
+                break
+        
+        for r, f in zip(range(targetRank - 1, -1, -1), range(targetFile + 1, 8, 1)):
+            attacks |= (UNIT << r * 8 + f)
+            if (UNIT << r * 8 + f) & block:
+                break
+
+        for r, f in zip(range(targetRank + 1, 8, 1), range(targetFile - 1, -1, -1)):
+            attacks |= (UNIT << r * 8 + f)
+            if (UNIT << r * 8 + f) & block:
+                break
+
+        for r, f in zip(range(targetRank - 1, -1, -1), range(targetFile - 1, -1, -1)):
+            attacks |= (UNIT << r * 8 + f)
+            if (UNIT << r * 8 + f) & block:
+                break
 
         # return attacks bitboard
         return attacks

@@ -9,9 +9,7 @@ game = Game()
 game.initLeapersAttacks()
 
 game.test()
-for sq in range(64):
-    printBitboard(game.bishop.bishopAttacks[sq])
 
 end = time.time()
 
-print("Runtime : ", (end - start) * 1000, "ms")
+print("\nRuntime : ", (end - start) * 1000, "ms")
