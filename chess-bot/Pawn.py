@@ -5,6 +5,10 @@ from utils import *
 class Pawn:
     def __init__(self):
         self.pawnAttacks = [[np.uint64(0) for _ in range(64)] for _ in range(2)]
+    
+    def initAttacks(self, square: int):
+        self.pawnAttacks[Color.WHITE.value][square] = self.maskPawnAttacks(Color.WHITE, square)
+        self.pawnAttacks[Color.BLACK.value][square] = self.maskPawnAttacks(Color.BLACK, square)
 
     # generate pawn attacks bitboard
     def maskPawnAttacks(self, color: Color, square: int):

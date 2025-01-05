@@ -16,14 +16,13 @@ class Game:
         for square in range(64):
 
             # init pawn attacks
-            self.pawn.pawnAttacks[Color.WHITE.value][square] = self.pawn.maskPawnAttacks(Color.WHITE, square)
-            self.pawn.pawnAttacks[Color.BLACK.value][square] = self.pawn.maskPawnAttacks(Color.BLACK, square)
+            self.pawn.initAttacks(square)
 
             # init knight attacks
-            self.knight.knightAttacks[square] = self.knight.maskKnightAttacks(square)
+            self.knight.initAttacks(square)
 
             # init king attacks
-            self.king.kingAttacks[square] = self.king.maskKingAttacks(square)
+            self.king.initAttacks(square)
     
     def test(self):
         for square in range(64):

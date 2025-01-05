@@ -5,6 +5,9 @@ from utils import *
 class Knight:
     def __init__(self):
         self.knightAttacks = [np.uint64(0) for _ in range(64)]
+
+    def initAttacks(self, square: int):
+        self.knightAttacks[square] = self.maskKnightAttacks(square)
     
     # generate knight attacks bitboard
     def maskKnightAttacks(self, square: int):

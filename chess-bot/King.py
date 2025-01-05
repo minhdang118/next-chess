@@ -6,6 +6,9 @@ class King:
     def __init__(self):
         self.kingAttacks = [np.uint64(0) for _ in range(64)]
     
+    def initAttacks(self, square: int):
+        self.kingAttacks[square] = self.maskKingAttacks(square)
+    
     # generate king attacks bitboard
     def maskKingAttacks(self, square: int):
         # result attacks bitboard
